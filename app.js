@@ -1,11 +1,8 @@
-var fs = require("fs"),
-    request = require("request"),
-    json2csv = require('json2csv');
+var getContentIds = require("./js/modules/getContentIds");
 
 // Access token for the portal you would like to get page/posts from
-var accessToken = '20897922-d738-41fc-9108-213a02f152da',
+var accessToken = '39fe4a8b-8c34-4330-b404-adafee4bd346',
     cosContentType = 'blog-posts', // OR 'blog-posts'
-    exportType = 'JSON', // OR 'CSV'
     queryString = {
       access_token: accessToken,
       // Optional Parameters
@@ -25,60 +22,4 @@ var accessToken = '20897922-d738-41fc-9108-213a02f152da',
       // state: 'DRAFT'; // OR PUBLISHED, SCHEDULED *blog only*
     };
 
-function getContentIds(exportType) {
-  var options = {
-    method: 'GET',
-    url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
-    qs: queryString,
-    headers: {'cache-control': 'no-cache'}
-  };
-
-//Turn this into a function with arguments
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    if (response.statusCode !== 200) {
-      throw new Error(response.statusCode + ": " + response.body);
-    }
-
-    var parsedBody = JSON.parse(body);
-    if (exportType === 'JSON') {
-      var cosContentJson = parsedBody.objects.map(function(object) {
-        return  {
-          name: object.name,
-          slug: object.slug,
-          id: object.analytics_page_id
-        };
-      });//Optional .filter();
-
-      var fields = ['name', 'slug', 'id'];
-      var csv = json2csv({ data: cosContentJson, fields: fields });
-
-      fs.writeFile('test-file.csv', csv, function(err) {
-        if (err) throw err;
-        console.log('file saved');
-      });
-
-      fs.writeFile('message6.json', JSON.stringify(cosContentJson),
-        function (err) {
-          if(err) {
-            return console.log(err);
-          }
-          console.log("The JSON file was saved!");
-        });
-    } else if (exportType === 'CSV') {
-      var cosContentCsv = parsedBody.objects.map(function(object) {
-        return  object.name + ',' + object.slug + ',' + object.analytics_page_id + '\n';
-      });//Optional .filter();
-
-      fs.writeFile('message9.csv', JSON.stringify(cosContentCsv), function (err) {
-        if(err) {
-          return console.log(err);
-        }
-        console.log("The CSV file was saved!");
-      });
-      console.log(cosContentCsv);
-    }
-  });
-}
-
-getContentIds(exportType);
+getContentIds(accessToken, queryString, cosContentType);
