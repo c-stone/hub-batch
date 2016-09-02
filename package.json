@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "4.5.0"
+  },
   "devDependencies": {
     "fs": "0.0.1-security",
     "request": "^2.74.0"
