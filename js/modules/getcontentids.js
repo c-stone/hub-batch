@@ -1,6 +1,8 @@
 var fs = require("fs"),
     request = require("request"),
-    json2csv = require('json2csv');
+    json2csv = require('json2csv'),
+    contentFilters = require('./contentfilters');
+
 
 function getContentIds(accessToken, queryString, cosContentType) {
   var options = {
@@ -19,13 +21,15 @@ function getContentIds(accessToken, queryString, cosContentType) {
     var parsedBody = JSON.parse(body),
         cosContentJson = parsedBody.objects.map(function (object) {
           return  {
-            name: object.name,
+            name: '=hyperlink("'+ object.published_url +'", "' + object.name + '")',
+            slug: object.slug,
             id: object.analytics_page_id,
-            editLink: 'https://app.hubspot.com/l/content/edit-beta/' +
-                      object.analytics_page_id
+            editLink: 'https://app.hubspot.com/content/[hubid]/edit-beta/' +
+                      object.analytics_page_id,
+            body: JSON.stringify(object.rss_body)
           };
-        }), //Optional .filter();
-        fields = ['name', 'id', 'editLink'],
+        }), //.filter(contentFilters.isKnowledgeArticle()), //Optional .filter();
+        fields = ['name', 'slug', 'id', 'editLink', 'body'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('coscontentexport.json',
