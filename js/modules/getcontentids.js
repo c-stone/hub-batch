@@ -1,10 +1,9 @@
 var fs = require("fs"),
     request = require("request"),
-    json2csv = require('json2csv'),
-    contentFilters = require('./contentfilters');
+    json2csv = require('json2csv');
 
 
-function getContentIds(accessToken, queryString, cosContentType) {
+function getContentIds(accessToken, queryString, cosContentType, filter) {
   var options = {
     method: 'GET',
     url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
@@ -19,27 +18,29 @@ function getContentIds(accessToken, queryString, cosContentType) {
     }
 
     var parsedBody = JSON.parse(body),
+        portalId = parsedBody.objects[0].portal_id,
         cosContentJson = parsedBody.objects.map(function (object) {
           return  {
             name: object.name,
             url: object.url,
             slug: object.slug,
             id: object.analytics_page_id,
-            editLink: 'https://app.hubspot.com/content/[hubid]/edit-beta/' +
+            domain: object.domain,
+            editLink: 'https://app.hubspot.com/content/'+ portalId +'/edit-beta/' +
                       object.analytics_page_id
           };
-        }), //.filter(contentFilters.isKnowledgeArticle()), //Optional .filter();
-        fields = ['name', 'url', 'slug', 'id', 'editLink'],
+        }).filter(filter), //Optional .filter();
+        fields = ['name', 'url', 'slug', 'id', 'domain', 'editLink'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
-    fs.writeFile('./exports/coscontentexport.json',
+    fs.writeFile('./exports/coscontentexport-' + portalId + '.json',
                  JSON.stringify(cosContentJson),
                  function (err) {
                    if (err) { return console.log(err); }
                    console.log("The JSON file was saved!");
                  });
 
-    fs.writeFile('./exports/coscontentexport.csv', csv,
+    fs.writeFile('./exports/coscontentexport-' + portalId + '.csv', csv,
                 function(err) {
                   if (err) throw err;
                   console.log('The CSV file was saved');

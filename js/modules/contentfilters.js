@@ -1,4 +1,7 @@
 var contentFilters = {
+  noFilter: function() {
+    return true;
+  },
   isSpanishUrl: function(arrayElement) {
     return arrayElement.slug.indexOf("/es/") !== -1;
   },
@@ -6,6 +9,7 @@ var contentFilters = {
     return arrayElement.slug.indexOf("/es/") !== -1;
   },
   isKnowledgeArticle: function(arrayElement) {
+     console.log(arrayElement);
     return arrayElement.slug.indexOf("/articles/kcs_article/") !== -1;
   },
   isJapanese: function(arrayElement) {
@@ -14,6 +18,9 @@ var contentFilters = {
   },
   isProspectsArticle: function(arrayElement) {
     return arrayElement.body.indexOf("prospect") !== -1;
+  },
+  isKnowledgeGuide: function(arrayElement) {
+    return arrayElement.domain === "knowledge.hubspot.com";
   }
 };
 
