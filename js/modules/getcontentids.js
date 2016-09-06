@@ -25,24 +25,23 @@ function getContentIds(accessToken, queryString, cosContentType) {
             slug: object.slug,
             id: object.analytics_page_id,
             editLink: 'https://app.hubspot.com/content/[hubid]/edit-beta/' +
-                      object.analytics_page_id,
-            body: JSON.stringify(object.rss_body)
+                      object.analytics_page_id
           };
         }), //.filter(contentFilters.isKnowledgeArticle()), //Optional .filter();
-        fields = ['name', 'slug', 'id', 'editLink', 'body'],
+        fields = ['name', 'slug', 'id', 'editLink'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
-    fs.writeFile('coscontentexport.json',
+    fs.writeFile('./exports/coscontentexport.json',
                  JSON.stringify(cosContentJson),
                  function (err) {
                    if (err) { return console.log(err); }
                    console.log("The JSON file was saved!");
                  });
 
-    fs.writeFile('coscontentexport.csv', csv,
+    fs.writeFile('./exports/coscontentexport.csv', csv,
                 function(err) {
                   if (err) throw err;
-                  console.log('file saved');
+                  console.log('The CSV file was saved');
                 });
   });
 }
