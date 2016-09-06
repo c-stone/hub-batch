@@ -21,14 +21,15 @@ function getContentIds(accessToken, queryString, cosContentType) {
     var parsedBody = JSON.parse(body),
         cosContentJson = parsedBody.objects.map(function (object) {
           return  {
-            name: '=hyperlink("'+ object.published_url +'", "' + object.name + '")',
+            name: object.name,
+            url: object.url,
             slug: object.slug,
             id: object.analytics_page_id,
             editLink: 'https://app.hubspot.com/content/[hubid]/edit-beta/' +
                       object.analytics_page_id
           };
         }), //.filter(contentFilters.isKnowledgeArticle()), //Optional .filter();
-        fields = ['name', 'slug', 'id', 'editLink'],
+        fields = ['name', 'url', 'slug', 'id', 'editLink'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('./exports/coscontentexport.json',
