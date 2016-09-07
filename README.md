@@ -3,8 +3,7 @@ A collection of scripts for gathering, editing and updating HubSpot COS blog pos
 ## getContentIds
 This script is used, make a GET request to either the HubSpot blog-posts API or site pages API and export both a CSV and JSON file into the Exports folder.
 
-
-as well as some optional queryStrings found on HubSpot developer documentation for [blog posts](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts) and [site pages](http://developers.hubspot.com/docs/methods/pages/get_pages).
+Information about about the APIs used can be found on HubSpot developer documentation for [blog posts](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts) and [site pages](http://developers.hubspot.com/docs/methods/pages/get_pages).
 
 
 ### Usage
