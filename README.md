@@ -10,7 +10,7 @@ as well as some optional queryStrings found on HubSpot developer documentation f
 ### Usage
 
 Clone the project and run:
-  ~> node app.js
+`~> node app.js`
 
 Within app.js:
 - you must add a valid access token for the portal you would like to make a request to
