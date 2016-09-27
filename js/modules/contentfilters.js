@@ -21,6 +21,10 @@ var contentFilters = {
   },
   isKnowledgeGuide: function(arrayElement) {
     return arrayElement.domain === "knowledge.hubspot.com";
+  },
+  hasSalesTemplateTopic: function(arrayElement) {
+    console.log(arrayElement);
+    return arrayElement.topic_ids.indexOf(4109410639) !== -1;
   }
 };
 

@@ -3,7 +3,7 @@ var fs = require("fs"),
     json2csv = require('json2csv');
 
 
-function getContentIds(accessToken, queryString, cosContentType, filter) {
+function getContentIds(queryString, cosContentType, filter) {
   var options = {
     method: 'GET',
     url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
@@ -25,12 +25,12 @@ function getContentIds(accessToken, queryString, cosContentType, filter) {
             url: object.url,
             slug: object.slug,
             id: object.analytics_page_id,
-            domain: object.domain,
             editLink: 'https://app.hubspot.com/content/'+ portalId +'/edit-beta/' +
-                      object.analytics_page_id
+                      object.analytics_page_id,
+            topic_ids: object.topic_ids
           };
         }).filter(filter), //Optional .filter();
-        fields = ['name', 'url', 'slug', 'id', 'domain', 'editLink'],
+        fields = ['url',  'id'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',
