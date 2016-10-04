@@ -1,18 +1,19 @@
 var fs = require("fs"),
     request = require("request"),
     Converter = require("csvtojson").Converter,
+    // IMPORT CSV HERE
     csvFileName = "../../imports/spanish-url-list-done.csv";
 //new converter instance
 var csvConverter=new Converter({});
 
-function postContentIds(element) {
+function publishContentIds(element, queryString, cosContentType) {
     var options = {
       method: 'PUT',
       url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
       qs: queryString,
       headers: {'cache-control': 'no-cache'},
       body: {
-        name: jsonObj.name
+        name: element.name,
       }
     };
 }

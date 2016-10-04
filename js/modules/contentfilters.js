@@ -25,6 +25,9 @@ var contentFilters = {
   hasSalesTemplateTopic: function(arrayElement) {
     console.log(arrayElement);
     return arrayElement.topic_ids.indexOf(4109410639) !== -1;
+  },
+  isReportingAddOnArticle: function(arrayElement) {
+    return arrayElement.addon.indexOf("reporting") !== -1;
   }
 };
 
