@@ -1,88 +1,66 @@
 var fs = require("fs"),
     request = require("request"),
     Converter = require("csvtojson").Converter,
-    // IMPORT CSV HERE
-    csvFileName = "../../imports/spanish-url-list-done.csv";
-//new converter instance
-var csvConverter=new Converter({});
+    csvFileName = "./imports/spanish-url-list-done.csv"; // IMPORT CSV HERE
 
-function publishContentIds(element, queryString, cosContentType) {
-    var options = {
-      method: 'PUT',
-      url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
-      qs: queryString,
-      headers: {'cache-control': 'no-cache'},
-      body: {
-        name: element.name,
-      }
-    };
+function updateContentIds(cosContentType, queryString) {
+  csvConverter=new Converter({}); //new converter instance
+
+  function putContentUpdates(element) {
+    console.log(element.id);
+    // Using cosContentType & queryString from Global Scope
+    var options = {   // Construct request options and body
+          method: 'PUT',
+          url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+ element.id,
+          qs: queryString,
+          headers: {'cache-control': 'no-cache'},
+          body: {
+            // TODO: figure out what to do with Meta descirption and post body
+            meta_description: '',
+            post_body: '',
+            name: element.name, //From the csv import
+            topic_ids: [element.topicId],
+            slug: element.slug,
+            blog_author_id: 448510316, //Set directly
+            campaign: staticIds.campaignIds.leadinArticleMigration,
+            use_featured_image: false,
+            widgets: {
+              article_product_key: {
+                body: {
+                  product: "HubSpot Sales & Marketing",
+                  marketing_subsc: "All subscriptions",
+                  sales_subsc: "All subscriptions",
+                  widget_name: "Article product key",
+                  in_beta: true,
+                  addon: ""
+                }
+              },
+              product: {
+                body: {
+                  value: "Marketing"
+                }
+              }
+            }
+          }
+        };
+    // Construct the request
+    // request(options, function (error, response, body) {
+    //   if (error) throw new Error(error);
+    //   if (response.statusCode !== 200) {
+    //     throw new Error(response.statusCode + ": " + response.body);
+    //   }
+    //   console.log([response.statusCode, element.id]);
+    // });
+  }
+
+  //end_parsed will be emitted once parsing finished
+  csvConverter.on("end_parsed", function(jsonObj) {
+      jsonObj.forEach(updateContentIds);
+  });
+
+  //read from file
+  fs.createReadStream(csvFileName).pipe(csvConverter);
 }
 
-var thing = "totally dude";
-//end_parsed will be emitted once parsing finished
-csvConverter.on("end_parsed",function(jsonObj) {
 
-    jsonObj.forEach(function(element){console.log(element.url, thing);});
-
-    // function postContentIds(accessToken, pageIdArray, postBody, cosContentType) {
-    //   var options = {
-    //     method: 'PUT',
-    //     url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
-    //     qs: queryString,
-    //     headers: {'cache-control': 'no-cache'},
-    //     body: {
-    //       name: jsonObj.name
-    //     }
-    //   };
-});
-
-//read from file
-fs.createReadStream(csvFileName).pipe(csvConverter);
-
-
-// function postContentIds(accessToken, pageIdArray, postBody, cosContentType) {
-//   var options = {
-//     method: 'PUT',
-//     url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
-//     qs: queryString,
-//     headers: {'cache-control': 'no-cache'}
-//   };
-//
-//   request(options, function (error, response, body) {
-//     if (error) throw new Error(error);
-//     if (response.statusCode !== 200) {
-//       throw new Error(response.statusCode + ": " + response.body);
-//     }
-//
-//     var parsedBody = JSON.parse(body),
-//         portalId = parsedBody.objects[0].portal_id,
-//         cosContentJson = parsedBody.objects.map(function (object) {
-//           return  {
-//             name: object.name,
-//             url: object.url,
-//             slug: object.slug,
-//             id: object.analytics_page_id,
-//             editLink: 'https://app.hubspot.com/content/'+ portalId +'/edit-beta/' +
-//                       object.analytics_page_id,
-//             topic_ids: object.topic_ids
-//           };
-//         }).filter(filter), //Optional .filter();
-//         fields = ['url',  'id'],
-//         csv = json2csv({ data: cosContentJson, fields: fields });
-//
-//     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',
-//                  JSON.stringify(cosContentJson),
-//                  function (err) {
-//                    if (err) { return console.log(err); }
-//                    console.log("The JSON file was saved!");
-//                  });
-//
-//     fs.writeFile('./exports/coscontentexport-' + portalId + '.csv', csv,
-//                 function(err) {
-//                   if (err) throw err;
-//                   console.log('The CSV file was saved');
-//                 });
-//   });
-// }
-//
-// module.exports = postContentIds;
+module.exports = updateContentIds;

@@ -23,15 +23,15 @@ function getContentIds(queryString, cosContentType, filter) {
           console.log(object.widgets.article_product_key);
           return  {
             name: object.name,
-            // url: object.url,
+            url: object.url,
             // slug: object.slug,
-            // id: object.analytics_page_id,
+            id: object.analytics_page_id,
             // addon: object.widgets.article_product_key.body.addon,
-            editLink: 'https://app.hubspot.com/content/'+ portalId +'/edit-beta/' +
-                      object.analytics_page_id
+            // editLink: 'https://app.hubspot.com/content/'+ portalId +
+                      // '/edit-beta/' + object.analytics_page_id
           };
         }).filter(filter), //Optional .filter();
-        fields = ['name', 'addon', 'editLink'],
+        fields = ['name', 'url', 'id'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',

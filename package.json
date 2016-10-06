@@ -12,6 +12,7 @@
     "node": "4.5.0"
   },
   "devDependencies": {
+    "cheerio": "^0.22.0",
     "csvtojson": "^1.0.2",
     "fs": "0.0.1-security",
     "request": "^2.74.0"

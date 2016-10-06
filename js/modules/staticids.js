@@ -28,7 +28,10 @@ var staticIds = {
     socialMedia: '4e06d86b-e6e7-4cbe-bdb7-6034c7850a5b',
     events: '896120f7-02a9-4fcf-b21a-1330166c0d72',
     smartContent: '86ab2139-3360-40c8-904c-85669a17564e',
-    goToWebinar: 'ed5e1614-1b48-4e09-b9fa-9a85f7ceccdd'
+    goToWebinar: 'ed5e1614-1b48-4e09-b9fa-9a85f7ceccdd',
+    leadinArticleMigration: 'c922c86c-eb09-44e8-a6ec-d724f1884681',
+    salesArticleMigration: 'c2f497ff-828f-4fdc-b7c7-e6f868913cf7',
+    spanishSalesArticleMigration: 'fa937675-41e9-4be8-809d-ead461d92289'
   }
 };
 
