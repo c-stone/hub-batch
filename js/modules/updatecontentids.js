@@ -1,13 +1,10 @@
 var fs = require("fs"),
     request = require("request"),
-    Converter = require("csvtojson").Converter,
-    csvFileName = "./imports/spanish-url-list-done.csv"; // IMPORT CSV HERE
+    staticIds = require("../../js/modules/staticids");
 
-function updateContentIds(cosContentType, queryString) {
-  csvConverter=new Converter({}); //new converter instance
-
+function updateContentIds(jsonObj, cosContentType, queryString) {
   function putContentUpdates(element) {
-    console.log(element.id);
+    // console.log(element.id);
     // Using cosContentType & queryString from Global Scope
     var options = {   // Construct request options and body
           method: 'PUT',
@@ -24,6 +21,7 @@ function updateContentIds(cosContentType, queryString) {
             blog_author_id: 448510316, //Set directly
             campaign: staticIds.campaignIds.leadinArticleMigration,
             use_featured_image: false,
+            publish_immediately: true,
             widgets: {
               article_product_key: {
                 body: {
@@ -43,6 +41,7 @@ function updateContentIds(cosContentType, queryString) {
             }
           }
         };
+    console.log(options);
     // Construct the request
     // request(options, function (error, response, body) {
     //   if (error) throw new Error(error);
@@ -52,14 +51,8 @@ function updateContentIds(cosContentType, queryString) {
     //   console.log([response.statusCode, element.id]);
     // });
   }
-
   //end_parsed will be emitted once parsing finished
-  csvConverter.on("end_parsed", function(jsonObj) {
-      jsonObj.forEach(updateContentIds);
-  });
-
-  //read from file
-  fs.createReadStream(csvFileName).pipe(csvConverter);
+  jsonObj.forEach(putContentUpdates);
 }
 
 
