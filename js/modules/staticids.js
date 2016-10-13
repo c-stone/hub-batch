@@ -3,6 +3,7 @@ var staticIds = {
     quickAnswerBlog: 3345520891, // Quick Answers Blog
     quickAnswerBlogSpanish: 3682158888, // Quick Answers Blog Spanish
     quickAnswerBlogGerman: 3803906156,
+    quickAnswerBlogJapanese: 4108769230,
     leadinBlog: 3572220242,
     hubspotSupportAuthor53: {'id': 448510316} //hubspot support author 53
   },
