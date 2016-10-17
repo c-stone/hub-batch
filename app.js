@@ -10,8 +10,8 @@ var getContentIds = require("./js/modules/getcontentids"),
 var csvFileName = "./imports/japanese-quick-answers.csv";
 
 // Access token for the portal you would like to get page/posts from
-var appAction = 'update', // 'get' OR 'update' OR 'publish'
-    accessToken = '10f8a063-2922-42d6-b52b-dd96edad15be',
+var appAction = 'publish', // 'get' OR 'update' OR 'publish'
+    accessToken = '7bd09b4a-19f3-4f3b-b3aa-2f5bd2a44b3a',
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
@@ -36,19 +36,21 @@ var appAction = 'update', // 'get' OR 'update' OR 'publish'
 // TODO: export content body and pass it to my script
 
 if (appAction === 'get') { // Used for getting page/post data
-  // Returns a CSV file in the exports folder
-  getContentIds(queryString, cosContentType, filter);
+  console.log('Getting');
+  getContentIds(filter, cosContentType, queryString); // Returns a CSV file in the exports folder
 
-} else if (appAction === 'update') { // Used for updating pages/posts
+} else if (appAction === 'update' || 'publish') { // Used for updating pages/posts
   csvConverter=new Converter({}); // new converter instance
-
-  csvConverter.on("end_parsed", function(jsonObj) { // Converts csv to json object
-      updateContentIds(jsonObj, cosContentType, queryString);
+  csvConverter.on('end_parsed', function(jsonObj) { // Converts csv to json object
+      if (appAction === 'update') {
+        console.log('Updating...');
+        updateContentIds(jsonObj, cosContentType, queryString);
+      } else if (appAction === 'publish') {
+        console.log("Publishing...");
+        publishContentIds(jsonObj, cosContentType, queryString);
+      }
   });
   fs.createReadStream(csvFileName).pipe(csvConverter); //read from file
-
-} else if (appAction === 'publish') {
-  publishContentIds(jsonObj, cosContentType, queryString);
 
 } else {
   console.warn("variable 'appAction' must be either 'get', 'update' or 'publish'");

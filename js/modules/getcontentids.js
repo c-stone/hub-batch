@@ -3,7 +3,7 @@ var fs = require("fs"),
     json2csv = require('json2csv');
 
 
-function getContentIds(queryString, cosContentType, filter) {
+function getContentIds(filter, cosContentType, queryString) {
   var options = {
     method: 'GET',
     url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
