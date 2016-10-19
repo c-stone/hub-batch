@@ -12,21 +12,27 @@ function publishContentIds(jsonObj, cosContentType, queryString) {
     return contentArray;
   }
 
+
   function postContentIds(element) {
     var options = {
       method: 'POST',
-      url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+
-            element.id + '/publish-action',
+      url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+ element.id + '/publish-action',
       qs: queryString,
-      headers:{'cache-control': 'no-cache'},
-      json: {'action': 'schedule-publish'}
+      headers:{
+        'cache-control': 'no-cache',
+        'content-type': 'application/json'
+      },
+      body: {action: 'schedule-publish'},
+      json: true
     };
-    console.log(options);
+
+    // TODO: Handle 500 errors
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      if (response.statusCode !== 200) {
-        throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
-      }
+      // if (response.statusCode !== 200) {
+      //   throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
+      // }
+      console.log([response.statusCode, element.id]);
     });
   }
 
@@ -35,19 +41,36 @@ function publishContentIds(jsonObj, cosContentType, queryString) {
 
     async.eachLimit(batchedObjectsCollection, 1, function(collection, callback) {
         collection.forEach(postContentIds);
-        console.log('Processing Collection: ' + collection);
-        setTimeout(callback(), 1000);
+        // console.log('Processing Collection: ' + collection);
+        setTimeout(callback(), 2000);
     },
     function(err) {
         if( err ) {  // if any of the file processing produced an error, err would equal that error
           console.log('A file failed to process'); // All processing will now stop.
         } else {
-          console.log('All files have been processed successfully');
+          // console.log('All files have been processed successfully');
         }
     });
   }
 
   batchPublishContent(jsonObj);
 }
+
+// var options = {
+//   method: 'POST',
+//   url: 'http://api.hubapi.com/content/api/v2/blog-posts/3788296356/publish-action',
+//   qs: { access_token: 'd9c7e028-6cc6-4eb1-8997-59e7b0167993' },
+//   headers:
+//    { 'cache-control': 'no-cache',
+//      'content-type': 'application/json' },
+//   body: { action: 'schedule-publish' },
+//   json: true };
+//
+// request(options, function (error, response, body) {
+//   if (error) throw new Error(error);
+//
+//   console.log(body);
+// });
+
 
 module.exports = publishContentIds;

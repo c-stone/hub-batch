@@ -10,19 +10,19 @@ var getContentIds = require("./js/modules/getcontentids"),
 var csvFileName = "./imports/japanese-quick-answers.csv";
 
 // Access token for the portal you would like to get page/posts from
-var appAction = 'publish', // 'get' OR 'update' OR 'publish'
-    accessToken = '7bd09b4a-19f3-4f3b-b3aa-2f5bd2a44b3a',
+var appAction = 'get', // 'get' OR 'update' OR 'publish'
+    accessToken = 'd9c7e028-6cc6-4eb1-8997-59e7b0167993',
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
       access_token: accessToken,
       // Optional Parameters for Getting Content
-      // limit: 1000,
+      limit: 1000,
       // offset: 0,
-      // archived: false,
+      archived: false,
       // blog_author_id: 34623,
       // campaign: staticIds.campaignIds.spanishSalesArticleMigration,
-      // content_group_id: staticIds.groupId.quickAnswerBlogJapanese, // A specfic blog's *blog only*
+      content_group_id: staticIds.groupId.academyCustomerProjects, // A specfic blog's *blog only*
       // created__gt: 4329847200000, // Supports exact, range, gt, gte, lt, lte
       // deleted_at__lt: 34572630000,
       // publish_date: 542376570000,

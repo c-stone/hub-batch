@@ -11,6 +11,10 @@
   "engines": {
     "node": "4.5.0"
   },
+  "repository": {
+  "type": "git",
+  "url": "https://git.hubteam.com/cstone/migration-utilities"
+  },
   "devDependencies": {
     "async": "^2.1.1",
     "cheerio": "^0.22.0",

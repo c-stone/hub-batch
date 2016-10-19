@@ -5,6 +5,7 @@ var staticIds = {
     quickAnswerBlogGerman: 3803906156,
     quickAnswerBlogJapanese: 4108769230,
     leadinBlog: 3572220242,
+    academyCustomerProjects: 2337714607,
     hubspotSupportAuthor53: {'id': 448510316} //hubspot support author 53
   },
   campaignIds: {
