@@ -2,7 +2,6 @@ var fs = require("fs"),
     request = require("request"),
     json2csv = require('json2csv');
 
-
 function getContentIds(filter, cosContentType, queryString) {
   var options = {
     method: 'GET',
@@ -16,25 +15,23 @@ function getContentIds(filter, cosContentType, queryString) {
     if (response.statusCode !== 200) {
       throw new Error(response.statusCode + ": " + response.body);
     }
-
     var parsedBody = JSON.parse(body),
         portalId = parsedBody.objects[0].portal_id,
         cosContentJson = parsedBody.objects.map(function (object) {
-          return  {
+          return  { //TODO add body + meta descirption
             // DEFAULT
             name: object.name,
-            url: object.url,
             slug: object.slug,
             editLink: 'https://app.hubspot.com/content/'+ portalId +
                       '/edit-beta/' + object.analytics_page_id,
             id: object.analytics_page_id
-            // CUSTOM
+            // CUSTOM //TODO: make this more customizable
             // inApp: object.widgets.in_app_project_url.body.value,
             // inAcademy: object.widgets.project_url.body.value
             // addon: object.widgets.article_product_key.body.addon,
           };
         }).filter(filter), //Optional .filter();
-        fields = ['name', 'id', 'inApp', 'inAcademy'],
+        fields = ['name', 'slug', 'editLink', 'id'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',

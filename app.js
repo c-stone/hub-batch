@@ -10,9 +10,9 @@ var getContentIds = require("./js/modules/getcontentids"),
 
 // Import CSV File here
 var csvFileName = "./imports/japanese-quick-answers.csv";
-var requestType = process.argv[2];
-var appAction = requestType, // 'get' OR 'update' OR 'publish'
-    accessToken = process.env.ACCESS_TOKEN,
+
+var appAction = proccess.argv[2], // 'get' OR 'update' OR 'publish' from CLI
+    accessToken = process.env.ACCESS_TOKEN, // from local .env file
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
@@ -33,8 +33,6 @@ var appAction = requestType, // 'get' OR 'update' OR 'publish'
       // subcategory: 'site_page', // OR landing_page
       // state: 'PUBLISHED' // OR PUBLISHED, SCHEDULED *blog only*
     };
-
-// TODO: export content body and pass it to my script
 
 if (appAction === 'get') { // Used for getting page/post data
   console.log('Getting...');
