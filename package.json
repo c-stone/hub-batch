@@ -12,8 +12,8 @@
     "node": "4.5.0"
   },
   "repository": {
-  "type": "git",
-  "url": "https://git.hubteam.com/cstone/migration-utilities"
+    "type": "git",
+    "url": "https://git.hubteam.com/cstone/migration-utilities"
   },
   "devDependencies": {
     "async": "^2.1.1",
@@ -21,5 +21,8 @@
     "csvtojson": "^1.0.2",
     "fs": "0.0.1-security",
     "request": "^2.74.0"
+  },
+  "dependencies": {
+    "dotenv": "^2.0.0"
   }
 }

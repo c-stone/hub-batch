@@ -20,18 +20,21 @@ function getContentIds(filter, cosContentType, queryString) {
     var parsedBody = JSON.parse(body),
         portalId = parsedBody.objects[0].portal_id,
         cosContentJson = parsedBody.objects.map(function (object) {
-          console.log(object.widgets.article_product_key);
           return  {
+            // DEFAULT
             name: object.name,
-            // url: object.url,
-            // slug: object.slug,
-            id: object.analytics_page_id,
+            url: object.url,
+            slug: object.slug,
+            editLink: 'https://app.hubspot.com/content/'+ portalId +
+                      '/edit-beta/' + object.analytics_page_id,
+            id: object.analytics_page_id
+            // CUSTOM
+            // inApp: object.widgets.in_app_project_url.body.value,
+            // inAcademy: object.widgets.project_url.body.value
             // addon: object.widgets.article_product_key.body.addon,
-            // editLink: 'https://app.hubspot.com/content/'+ portalId +
-                      // '/edit-beta/' + object.analytics_page_id
           };
         }).filter(filter), //Optional .filter();
-        fields = ['name', 'id'],
+        fields = ['name', 'id', 'inApp', 'inAcademy'],
         csv = json2csv({ data: cosContentJson, fields: fields });
 
     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',

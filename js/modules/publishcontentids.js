@@ -1,6 +1,8 @@
 var request = require("request"),
     async = require("async");
 
+var count = 1;
+
 function publishContentIds(jsonObj, cosContentType, queryString) {
   function groupObjectBy10s(object) {
     var contentArray = [];
@@ -41,14 +43,15 @@ function publishContentIds(jsonObj, cosContentType, queryString) {
 
     async.eachLimit(batchedObjectsCollection, 1, function(collection, callback) {
         collection.forEach(postContentIds);
-        // console.log('Processing Collection: ' + collection);
-        setTimeout(callback(), 2000);
+        console.log('Processing Collection #'+ count +' of '+ batchedObjectsCollection.length);
+        ++count;
+        setTimeout(callback, 2000);
     },
     function(err) {
         if( err ) {  // if any of the file processing produced an error, err would equal that error
           console.log('A file failed to process'); // All processing will now stop.
         } else {
-          // console.log('All files have been processed successfully');
+          console.log('All files have been processed successfully');
         }
     });
   }

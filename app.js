@@ -1,3 +1,5 @@
+require('dotenv').config(); //Set up local enviroment, for authentication
+
 var getContentIds = require("./js/modules/getcontentids"),
     updateContentIds = require("./js/modules/updatecontentids"),
     publishContentIds = require("./js/modules/publishContentIds"),
@@ -8,21 +10,21 @@ var getContentIds = require("./js/modules/getcontentids"),
 
 // Import CSV File here
 var csvFileName = "./imports/japanese-quick-answers.csv";
-
+var requestType = process.argv[2];
 // Access token for the portal you would like to get page/posts from
-var appAction = 'get', // 'get' OR 'update' OR 'publish'
-    accessToken = 'd9c7e028-6cc6-4eb1-8997-59e7b0167993',
+var appAction = requestType, // 'get' OR 'update' OR 'publish'
+    accessToken = process.env.ACCESS_TOKEN,
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
       access_token: accessToken,
       // Optional Parameters for Getting Content
-      limit: 1000,
+      // limit: 1000,
       // offset: 0,
-      archived: false,
+      // archived: false,
       // blog_author_id: 34623,
       // campaign: staticIds.campaignIds.spanishSalesArticleMigration,
-      content_group_id: staticIds.groupId.academyCustomerProjects, // A specfic blog's *blog only*
+      // content_group_id: staticIds.groupId.academyCustomerProjects, // A specfic blog's *blog only*
       // created__gt: 4329847200000, // Supports exact, range, gt, gte, lt, lte
       // deleted_at__lt: 34572630000,
       // publish_date: 542376570000,
@@ -36,7 +38,7 @@ var appAction = 'get', // 'get' OR 'update' OR 'publish'
 // TODO: export content body and pass it to my script
 
 if (appAction === 'get') { // Used for getting page/post data
-  console.log('Getting');
+  console.log('Getting...');
   getContentIds(filter, cosContentType, queryString); // Returns a CSV file in the exports folder
 
 } else if (appAction === 'update' || 'publish') { // Used for updating pages/posts
