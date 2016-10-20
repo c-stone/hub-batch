@@ -11,7 +11,6 @@ var getContentIds = require("./js/modules/getcontentids"),
 // Import CSV File here
 var csvFileName = "./imports/japanese-quick-answers.csv";
 var requestType = process.argv[2];
-// Access token for the portal you would like to get page/posts from
 var appAction = requestType, // 'get' OR 'update' OR 'publish'
     accessToken = process.env.ACCESS_TOKEN,
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
