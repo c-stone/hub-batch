@@ -1,6 +1,7 @@
 var request = require("request"),
     async = require("async"),
     createBatches = require("./createbatches"),
+    staticIds = require("./staticids"),
     count = 1; // used for displaying which batch is being processed
 
 function updateContentIds (jsonObj, cosContentType, queryString) {
@@ -12,31 +13,32 @@ function updateContentIds (jsonObj, cosContentType, queryString) {
           headers: {'cache-control': 'no-cache'},
           json: {
             // TODO: figure out what to do with Meta descirption and post body
-            // meta_description: '',
-            // post_body: '',
+            // meta_description: element.meta_description,
+            // post_body: element.post_body,
             // name: element.name, //From the csv import
             // topic_ids: [element.topicId],
             // slug: element.slug,
             // blog_author_id: 448510316, //Set directly
             // campaign: staticIds.campaignIds.leadinArticleMigration,
             // use_featured_image: false,
-            publish_immediately: true,
-            // widgets: {
-            //   article_product_key: {
-            //     body: {
-            //       product: "HubSpot Sales & Marketing",
-            //       marketing_subsc: "All subscriptions",
-            //       sales_subsc: "All subscriptions",
-            //       widget_name: "Article product key",
-            //       in_beta: true,
-            //       addon: ""
-            //     }
-            //   },
-            //   product: {
-            //     body: {
-            //       value: "Marketing"
-            //     }
-            //   }
+            // publish_immediately: true,
+            // content_group_id: staticIds.groupIds.quickAnswerBlog,
+            widgets: {
+              article_product_key: {
+                body: {
+                  product: "HubSpot Marketing & Sales",
+                  marketing_subsc: "All subscriptions",
+                  sales_subsc: "All subscriptions",
+                  widget_name: "Article product key",
+                  in_beta: true,
+                  addon: ""
+                }
+              }
+              // product: {
+              //   body: {
+              //     value: "Marketing"
+              //   }
+              // }
             //   in_app_project_url: {
             //     body: {
             //       value: element.inApp
@@ -44,13 +46,14 @@ function updateContentIds (jsonObj, cosContentType, queryString) {
             //   }
             // }
           }
-        };
+        }
+      };
     // Perform the request
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      if (response.statusCode !== 200) {
-        throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
-      }
+      // if (response.statusCode !== 200 || 201) {
+      //   throw new Error(response.statusCode + ": " + JSON.stringify(response.body) + " pageID: " + element.id);
+      // }
       console.log([response.statusCode, element.id]);
     });
   }

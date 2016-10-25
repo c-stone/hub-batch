@@ -1,5 +1,5 @@
 var staticIds = {
-  groupId: {
+  groupIds: {
     quickAnswerBlog: 3345520891, // Quick Answers Blog
     quickAnswerBlogSpanish: 3682158888, // Quick Answers Blog Spanish
     quickAnswerBlogGerman: 3803906156,
@@ -34,6 +34,33 @@ var staticIds = {
     leadinArticleMigration: 'c922c86c-eb09-44e8-a6ec-d724f1884681',
     salesArticleMigration: 'c2f497ff-828f-4fdc-b7c7-e6f868913cf7',
     spanishSalesArticleMigration: 'fa937675-41e9-4be8-809d-ead461d92289'
+  },
+  topicIds: {
+    account: 525559089,
+    calling: 4186157433,
+    collectedForms: 4464094052,
+    companies: 4186158263,
+    contacts: 414480796,
+    dashboard: 1887430669,
+    deals: 4160074736,
+    documents: 4109377024,
+    email: 414480361,
+    emailNotifications: 4109382859,
+    emailTracking: 4163283412,
+    hubDb: 4473935151,
+    integrations: 416880120,
+    leadFlows: 4463961502,
+    meetings: 4309412160,
+    messages: 4109383989,
+    mobile: 575468181,
+    prospects: 4186185468,
+    reports: 525781780,
+    resources: 1887200738,
+    salesforce: 28128907,
+    salesTemplates: 4109410639,
+    sequences: 4158922303,
+    settings: 545076660,
+    tasks: 4309452970
   }
 };
 

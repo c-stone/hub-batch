@@ -1,5 +1,5 @@
 require('dotenv').config(); //Set up local enviroment, for authentication
-
+//TODO: make a config file
 var getContentIds = require("./js/modules/getcontentids"),
     updateContentIds = require("./js/modules/updatecontentids"),
     publishContentIds = require("./js/modules/publishContentIds"),
@@ -7,23 +7,22 @@ var getContentIds = require("./js/modules/getcontentids"),
     staticIds = require("./js/modules/staticids"),
     fs = require("fs"),
     Converter = require("csvtojson").Converter;
+// The name of the CSV file from the second Command Line argument
+var csvFileName = './imports/' + process.argv[3];
 
-// Import CSV File here
-var csvFileName = "./imports/japanese-quick-answers.csv";
-
-var appAction = proccess.argv[2], // 'get' OR 'update' OR 'publish' from CLI
-    accessToken = process.env.ACCESS_TOKEN, // from local .env file
+var appAction = process.argv[2], // 'get' OR 'update' OR 'publish' from CLI
+    accessToken = process.env.ACCESS_TOKEN_KB, // from local .env file
     cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
       access_token: accessToken,
       // Optional Parameters for Getting Content
-      // limit: 1000,
+      limit: 1000,
       // offset: 0,
       // archived: false,
       // blog_author_id: 34623,
-      // campaign: staticIds.campaignIds.spanishSalesArticleMigration,
-      // content_group_id: staticIds.groupId.academyCustomerProjects, // A specfic blog's *blog only*
+      campaign: staticIds.campaignIds.leadinArticleMigration,
+      content_group_id: staticIds.groupIds.quickAnswerBlog, // A specfic blog's *blog only*
       // created__gt: 4329847200000, // Supports exact, range, gt, gte, lt, lte
       // deleted_at__lt: 34572630000,
       // publish_date: 542376570000,
