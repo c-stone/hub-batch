@@ -9,7 +9,6 @@ var contentFilters = {
     return arrayElement.slug.indexOf("/es/") !== -1;
   },
   isKnowledgeArticle: function(arrayElement) {
-     console.log(arrayElement);
     return arrayElement.slug.indexOf("/articles/kcs_article/") !== -1;
   },
   isJapanese: function(arrayElement) {
@@ -23,11 +22,19 @@ var contentFilters = {
     return arrayElement.domain === "knowledge.hubspot.com";
   },
   hasSalesTemplateTopic: function(arrayElement) {
-    console.log(arrayElement);
     return arrayElement.topic_ids.indexOf(4109410639) !== -1;
+  },
+  hasWorkflowTopic: function(arrayElement) {
+    return arrayElement.topic_ids.indexOf(416756270) !== -1;
   },
   isReportingAddOnArticle: function(arrayElement) {
     return arrayElement.addon.indexOf("reporting") !== -1;
+  },
+  isNotDraft: function(arrayElement) {
+    return arrayElement.is_draft === false;
+  },
+  isUserGuide: function(arrayElement) {
+    return arrayElement.slug.indexOf("user-guide") !== -1;
   }
 };
 

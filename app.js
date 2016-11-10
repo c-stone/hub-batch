@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 require('dotenv').config(); //Set up local enviroment, for authentication
 //TODO: make a config file
 var getContentIds = require("./js/modules/getcontentids"),
@@ -12,23 +14,24 @@ var csvFileName = './imports/' + process.argv[3];
 
 var appAction = process.argv[2], // 'get' OR 'update' OR 'publish' from CLI
     accessToken = process.env.ACCESS_TOKEN_KB, // from local .env file
-    cosContentType = 'blog-posts', // 'pages' OR 'blog-posts'
+    cosContentType = 'pages', // 'pages' OR 'blog-posts'
     filter = contentFilters.noFilter, // MUST use 'noFilter' as default
     queryString = {
       access_token: accessToken,
       // Optional Parameters for Getting Content
-      limit: 1000,
+      // limit: 3000,
       // offset: 0,
       // archived: false,
+      // is_draft: false, // Site pages only
       // blog_author_id: 34623,
-      campaign: staticIds.campaignIds.leadinArticleMigration,
+      // campaign: staticIds.campaignIds.workflows,
       content_group_id: staticIds.groupIds.quickAnswerBlog, // A specfic blog's *blog only*
       // created__gt: 4329847200000, // Supports exact, range, gt, gte, lt, lte
       // deleted_at__lt: 34572630000,
       // publish_date: 542376570000,
       // updated: 793847290000
-      // name__icontains: 'reporting add-on', //Supports contains, icontains, ne
-      // slug: 'sales/article/great-page-name', // Supports exact, in
+      // name__icontains: 'user guide', //Supports contains, icontains, ne
+      // slug: 'user-guide' // Supports exact, in
       // subcategory: 'site_page', // OR landing_page
       // state: 'PUBLISHED' // OR PUBLISHED, SCHEDULED *blog only*
     };

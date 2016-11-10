@@ -60,7 +60,8 @@ var staticIds = {
     salesTemplates: 4109410639,
     sequences: 4158922303,
     settings: 545076660,
-    tasks: 4309452970
+    tasks: 4309452970,
+    workflows: 416756270
   }
 };
 

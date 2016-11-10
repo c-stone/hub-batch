@@ -23,16 +23,18 @@ function getContentIds(filter, cosContentType, queryString) {
           //TODO add body + meta descirption
           { // DEFAULT
             name: object.name,
-            slug: object.slug,
-            post_body: jsonCleaner.removeHeading(object.post_body),
-            meta_description: object.meta_description,
+            url: object.url,
+            // post_body: jsonCleaner.removeLineEnds(object.post_body),
+            // meta_description: object.meta_description,
             id: object.id,
+            slug: object.slug,
             editLink: 'https://app.hubspot.com/content/'+ portalId +
-                      '/edit-beta/' + object.id
+                      '/edit-beta/' + object.id,
             // CUSTOM //TODO: make this more customizable
             // inApp: object.widgets.in_app_project_url.body.value,
             // inAcademy: object.widgets.project_url.body.value
             // addon: object.widgets.article_product_key.body.addon,
+            topic_ids: object.topic_ids
           };
           return csvProperties;
         }).filter(filter), //Optional .filter();
