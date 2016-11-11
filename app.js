@@ -7,6 +7,7 @@ var getContentIds = require("./js/modules/getcontentids"),
     publishContentIds = require("./js/modules/publishContentIds"),
     contentFilters = require('./js/modules/contentfilters'),
     staticIds = require("./js/modules/staticids"),
+    files = require('./js/modules/files'),
     fs = require("fs"),
     Converter = require("csvtojson").Converter;
 // The name of the CSV file from the second Command Line argument
