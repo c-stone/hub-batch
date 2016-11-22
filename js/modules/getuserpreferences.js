@@ -1,15 +1,13 @@
-'esversion: 6';
-
-var chalk       = require('chalk');
-var clear       = require('clear');
-var CLI         = require('clui');
-var figlet      = require('figlet');
-var inquirer    = require('inquirer');
-var Preferences = require('preferences');
-var Spinner     = CLI.Spinner;
-var fs          = require('fs');
-var staticIds   = require("./staticids");
-var prefs = new Preferences('HubBatch');
+require('dotenv').config();
+var chalk = require('chalk');
+var clear = require('clear');
+var CLI = require('clui');
+var figlet = require('figlet');
+var inquirer = require('inquirer');
+var Spinner= CLI.Spinner;
+var fs = require('fs');
+var staticIds = require('./staticids');
+var contentFilters = require('./contentFilters');
 
 var importsFolder = './././imports/';
 var filesArr = getImportFilesArray(); // creates array of files in ./js/imports
@@ -27,31 +25,43 @@ function showFiglet() {
       figlet.textSync('Hub-Batch', { horizontalLayout: 'full', font: 'doom' })
     )
   );
+  if (process.env.HUB_ID) {
+    console.log('You are working with portal ' + process.env.HUB_ID);
+  }
+}
+
+
+function buildQueryString(answersObj) {
+  var answers = answersObj[0];
+  var qs = {};
+
+  if (answers.method === 'get') {
+    // All Get Requests
+    qs.limit = 2500;
+    if (process.env.AUTH_TYPE === "access_token") {
+      qs.access_token = process.env.ACCESS_TOKEN_KB;
+    }
+    if (process.env.AUTH_TYPE === "hapikey") {
+      qs.hapikey = process.env.ACCESS_TOKEN_KB;
+    }
+    if (answers.name) { qs.name__icontains = answers.name; }
+    if (answers.slug) { qs.slug = answers.slug; }
+    if (answers.campaign) { qs.campaign = staticIds.campaignIds[answers.campaign]; }
+    // Blog Post, GET query string
+    if (answers.contentType === 'blog-posts') {
+      qs.content_group_id = staticIds.groupIds[answers.contentGroupId];
+      if (answers.postState !== 'ALL') { qs.state = answers.postState; }
+    }
+    // Pages, GET query string
+    if (answers.contentType === 'pages') {
+      qs.draft = answers.draft;
+    }
+  }
+  return qs;
 }
 
 function getUserPreferences(callback) {
   var questions = [
-    {
-      name: 'key',
-      type: 'password',
-      message: 'Enter your hapikey:',
-      validate: function(value) {
-        if (value.length > 30) {
-          return true;
-        } else {
-          return 'Please enter a valid hapikey';
-        }
-      },
-      when: function() {
-        if (prefs.account &&
-            prefs.account.hapikey &&
-            process.argv[2] !== 'change-key') { // Add 'change-key' argument to
-          return false;                         // update existing hapikey
-        } else {
-          return true;
-        }
-      }
-    },
     {
       name: 'contentType',
       type: 'list',
@@ -71,7 +81,7 @@ function getUserPreferences(callback) {
         message: 'Which blog would you like to Get?:',
         choices: Object.keys(staticIds.groupIds),
         when: function(answers) {
-          if (answers.contentType === 'blog posts') {
+          if (answers.contentType === 'blog-posts') {
             return (answers.method === 'get');
           }
         }
@@ -80,9 +90,9 @@ function getUserPreferences(callback) {
         name: 'postState',
         type: 'list',
         message: 'Select pages in which state?:',
-        choices: ['DRAFT','PUBLISHED','SCHEDULED'],
+        choices: ['DRAFT','PUBLISHED','SCHEDULED','ALL'],
         when: function(answers) {
-          if (answers.contentType === 'blog posts') {
+          if (answers.contentType === 'blog-posts') {
             return (answers.method === 'get');
           }
         }
@@ -134,7 +144,7 @@ function getUserPreferences(callback) {
             }
           }
         },
-        { // GET: If Name is selected
+        { // GET: If Slug Name is selected
           name: 'slug',
           type: 'input',
           message: 'Return content with a slug containing:',
@@ -160,22 +170,25 @@ function getUserPreferences(callback) {
       when: answers => (answers.method !== 'get')
     },
   ];
-
   // Ask user questions, then run a callback function
   inquirer.prompt(questions).then(callback);
 }
 
+showFiglet();
+getUserPreferences(function() { buildRequest(arguments); });
+
+
 //NOTE: use answers to build correct json payload/or query params
 
-showFiglet();
-getUserPreferences();
-
-function constructor() {
+function buildRequest() {
   var answers = arguments[0];
-  console.log(answers);
-  prefs.account.hapikey = answers.key;
+ // NOTE ITS WORKING
+  var queryString = buildQueryString(answers),
+      cosContentType = answers.contentType,
+      filter = contentFilters.noFilter;
+      console.log(queryString);
+  // getContentIds(filter, cosContentType, queryString);
 }
-
 
 
 module.exports = getUserPreferences;

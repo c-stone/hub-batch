@@ -51,23 +51,23 @@ var appAction = process.argv[2], // 'get' OR 'update' OR 'publish' from CLI
       // state: 'PUBLISHED' // OR PUBLISHED, SCHEDULED *blog only*
     };
 ////////////////////////////////////////
-// if (appAction === 'get') { // Used for getting page/post data
-//   console.log('Getting...');
-//   getContentIds(filter, cosContentType, queryString); // Returns a CSV file in the exports folder
-//
-// } else if (appAction === 'update' || 'publish') { // Used for updating pages/posts
-//   csvConverter=new Converter({}); // new converter instance
-//   csvConverter.on('end_parsed', function(jsonObj) { // Converts csv to json object
-//       if (appAction === 'update') {
-//         console.log('Updating...');
-//         updateContentIds(jsonObj, cosContentType, queryString);
-//       } else if (appAction === 'publish') {
-//         console.log("Publishing...");
-//         publishContentIds(jsonObj, cosContentType, queryString);
-//       }
-//   });
-//   fs.createReadStream(csvFileName).pipe(csvConverter); //read from file
-//
-// } else {
-//   console.warn("variable 'appAction' must be either 'get', 'update' or 'publish'");
-// }
+if (appAction === 'get') { // Used for getting page/post data
+  console.log('Getting...');
+  getContentIds(filter, cosContentType, queryString); // Returns a CSV file in the exports folder
+
+} else if (appAction === 'update' || 'publish') { // Used for updating pages/posts
+  csvConverter=new Converter({}); // new converter instance
+  csvConverter.on('end_parsed', function(jsonObj) { // Converts csv to json object
+      if (appAction === 'update') {
+        console.log('Updating...');
+        updateContentIds(jsonObj, cosContentType, queryString);
+      } else if (appAction === 'publish') {
+        console.log("Publishing...");
+        publishContentIds(jsonObj, cosContentType, queryString);
+      }
+  });
+  fs.createReadStream(csvFileName).pipe(csvConverter); //read from file
+
+} else {
+  console.warn("variable 'appAction' must be either 'get', 'update' or 'publish'");
+}

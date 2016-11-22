@@ -5,8 +5,7 @@ var staticIds = {
     quickAnswerBlogGerman: 3803906156,
     quickAnswerBlogJapanese: 4108769230,
     leadinBlog: 3572220242,
-    academyCustomerProjects: 2337714607,
-    hubspotSupportAuthor53: {'id': 448510316} //hubspot support author 53
+    academyCustomerProjects: 2337714607
   },
   campaignIds: {
     blog: 'f77f28ba-f428-491d-bd83-d51c27ff5aac',
@@ -62,6 +61,9 @@ var staticIds = {
     settings: 545076660,
     tasks: 4309452970,
     workflows: 416756270
+  },
+  authorIds: {
+    hubspotSupport53: 448510316
   }
 };
 
