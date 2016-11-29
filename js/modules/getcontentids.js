@@ -1,7 +1,7 @@
 var fs = require('fs'),
     request = require('request'),
     json2csv = require('json2csv'),
-    jsonCleaner = require('./jsoncleanerutilities');
+    jsonCleaner = require('../static/jsoncleanerutilities');
 
 function getContentIds(filter, cosContentType, queryString) {
   var options = {
@@ -16,25 +16,26 @@ function getContentIds(filter, cosContentType, queryString) {
     if (response.statusCode !== 200) {
       throw new Error(response.statusCode + ": " + response.body);
     }
-    var parsedBody = JSON.parse(body),
-        portalId = parsedBody.objects[0].portal_id,
+    var parsedBody = JSON.parse(body);
+    console.log("response:" + JSON.stringify(response));
+    console.log("parsedBody: " + parsedBody);
+    var portalId = parsedBody.objects[0].portal_id,
         cosContentJson = parsedBody.objects.map(function (object) {
           var csvProperties =
-          //TODO add body + meta descirption
           { // DEFAULT
-            name: object.name,
             url: object.url,
-            // post_body: jsonCleaner.removeLineEnds(object.post_body),
-            // meta_description: object.meta_description,
+            post_body: jsonCleaner.removeLineEnds(object.post_body),
+            meta_description: object.meta_description,
+            name: object.name,
             id: object.id,
             slug: object.slug,
-            editLink: 'https://app.hubspot.com/content/'+ portalId +
+            editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
                       '/edit-beta/' + object.id,
             // CUSTOM //TODO: make this more customizable
             // inApp: object.widgets.in_app_project_url.body.value,
             // inAcademy: object.widgets.project_url.body.value
             // addon: object.widgets.article_product_key.body.addon,
-            topic_ids: object.topic_ids
+            // topic_ids: object.topic_ids
           };
           return csvProperties;
         }).filter(filter), //Optional .filter();
@@ -44,7 +45,7 @@ function getContentIds(filter, cosContentType, queryString) {
     fs.writeFile('./exports/coscontentexport-' + portalId + '.json',
                  JSON.stringify(cosContentJson),
                  function (err) {
-                   if (err) { return console.log(err); }
+                   if (err) { return console.log("error: " + err); }
                    console.log("The JSON file was saved!");
                  });
 

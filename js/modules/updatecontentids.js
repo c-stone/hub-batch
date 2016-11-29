@@ -14,9 +14,9 @@ function updateContentIds (jsonObj, cosContentType, queryString) {
             // TODO: figure out what to do with Meta descirption and post body
             // meta_description: '',
             // post_body: '',
-            // name: element.name, //From the csv import
+            name: element.name, //From the csv import
             // topic_ids: [element.topicId],
-            // slug: element.slug,
+            slug: element.slug,
             // blog_author_id: 448510316, //Set directly
             // campaign: staticIds.campaignIds.leadinArticleMigration,
             // use_featured_image: false,
@@ -72,6 +72,7 @@ function updateContentIds (jsonObj, cosContentType, queryString) {
         }
     });
   }
+
   batchUpdateContent(jsonObj);
 }
 
