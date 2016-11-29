@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 require('dotenv').config(); //Set up local enviroment, for authentication
 
-var getContentIds = require('./js/modules/getcontentids'),
+var getUtils = require('./js/modules/getutils'),
     updateContentIds = require('./js/modules/updatecontentids'),
     publishContentIds = require('./js/modules/publishContentIds'),
-    cliHelpers = require('./js/modules/clihelpers'),
+    cliUtils = require('./js/modules/cliutils'),
     contentFilters = require('./js/static/contentfilters'),
     staticIds = require('./js/static/staticids'),
     fs = require('fs'),
@@ -13,8 +13,17 @@ var getContentIds = require('./js/modules/getcontentids'),
 /////NOTE I need to figure out how to handle the query string for blog vs pages
 // var csvFileName = './imports/' + process.argv[3];
 
-cliHelpers.showFiglet();
-cliHelpers.getUserPreferences(function() { cliHelpers.buildRequest(arguments); });
+cliUtils.showFiglet();
+cliUtils.getUserPreferences(function() {
+  var method = arguments[0].method;
+  if ( method === 'get' ) {
+    getUtils.makeGetRequest(arguments);
+  } else if ( method === 'update' ) {
+
+  } else if ( method === 'publish' ) {
+
+  }
+ });
 
 
 // } else if (appAction === 'update' || 'publish') { // Used for updating pages/posts

@@ -1,14 +1,12 @@
 require('dotenv').config();
 var chalk = require('chalk');
 var clear = require('clear');
-var CLI = require('clui');
 var figlet = require('figlet');
 var inquirer = require('inquirer');
-var Spinner= CLI.Spinner;
 var fs = require('fs');
 var staticIds = require('../static/staticids');
 var contentFilters = require('../static/contentfilters');
-var getContentIds = require('../modules/getContentIds');
+var fetchPageInfo = require('../modules/getutils');
 
 var importsFolder = './././imports/';
 var filesArr = getImportFilesArray(); // creates array of files in ./js/imports
@@ -19,7 +17,7 @@ function getImportFilesArray() {
   });
 }
 
-var cliHelpers = {
+var cliUtils = {
   showFiglet: function() {
     clear();
     console.log(
@@ -163,55 +161,6 @@ var cliHelpers = {
     // Ask user questions, then run a callback function
     inquirer.prompt(questions).then(callback);
   },
-  buildRequest: function() {
-    function buildQueryString (answersObj) {
-      var answers = answersObj[0];
-      var qs = {};
-      // console.log(answers);
-      if (answers.method === 'get') {
-        // All Get Requests
-        qs.limit = 2500;
-        if (process.env.AUTH_TYPE === "access_token") {
-          qs.access_token = process.env.ACCESS_TOKEN_KB;
-        }
-        if (process.env.AUTH_TYPE === "hapikey") {
-          qs.hapikey = process.env.ACCESS_TOKEN_KB;
-        }
-        if (answers.name) { qs.name__icontains = answers.name; }
-        if (answers.slug) { qs.slug = answers.slug; }
-        if (answers.campaign) { qs.campaign = staticIds.campaignIds[answers.campaign]; }
-        if (answers.topic) { qs.topic = staticIds.topicIds[answers.topic]; }
-        // Blog Post, GET query string
-        if (answers.contentType === 'blog-posts') {
-          qs.content_group_id = staticIds.groupIds[answers.contentGroupId];
-          if (answers.postState !== 'ALL') { qs.state = answers.postState; }
-        }
-        // Pages, GET query string
-        if (answers.contentType === 'pages') {
-          qs.draft = answers.draft;
-        }
-      } else if (answers.method === 'update') {
-
-      }
-      console.log("query string: " + JSON.stringify(qs));
-      return qs;
-    }
-
-    var answers = arguments[0];
-    var queryString = buildQueryString(answers),
-        cosContentType = answers[0].contentType,
-        filter = contentFilters.noFilter;
-    getContentIds(filter, cosContentType, queryString);
-  }
 };
 
-// showFiglet();
-// getUserPreferences(function() { buildRequest(arguments); });
-//
-//
-// //NOTE: use answers to build correct json payload/or query params
-//
-
-
-
-module.exports = cliHelpers;
+module.exports = cliUtils;
