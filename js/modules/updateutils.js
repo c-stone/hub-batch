@@ -79,6 +79,19 @@ var updateUtils = {
   }
 };
 
+module.exports = (function() {
+  function makeUpdateRequest(answersObj, jsonObject) {
+    var cosContentType = answersObj.contentType;
+    var queryString = buildUpdateQueryString(answersObj);
+    var pageId = element.id;
+    delete element.id; // save the Page ID then remove it from the object
+  }
+
+  return {
+    makeUpdateRequest: makeUpdateRequest,
+
+  };
+})();
 
 
 
@@ -87,8 +100,7 @@ var updateUtils = {
 
 
 
-
-
+/////
 function makeUpdateRequest (jsonObj, cosContentType, queryString) {
   function putContentUpdates(element) {
     var pageId = element.id;
