@@ -6,18 +6,17 @@ var fs = require('fs'),
     contentFilters = require('../static/contentfilters');
 
 var getUtils = {
-  makeGetRequest: function() {
-    var answers = arguments[0]; // answers from users command line input
-    var queryString = getUtils.buildGetQueryString(answers),
-        cosContentType = answers[0].contentType,
+  makeGetRequest: function(answersObj) {
+    // var answersObj = arguments[0]; // answersObj from users command line input
+    var queryString = getUtils.buildGetQueryString(answersObj),
+        cosContentType = answersObj.contentType,
         filter = contentFilters.noFilter;
     getUtils.fetchPageInfo(filter, cosContentType, queryString);
   },
   buildGetQueryString: function(answersObj) {
-    var answers = answersObj[0];
     var qs = {};
-    // console.log(answers);
-    if (answers.method === 'get') {
+    // console.log(answersObj);
+    if (answersObj.method === 'get') {
       // All Get Requests
       qs.limit = 2500;
       if (process.env.AUTH_TYPE === "access_token") {
@@ -26,20 +25,20 @@ var getUtils = {
       if (process.env.AUTH_TYPE === "hapikey") {
         qs.hapikey = process.env.ACCESS_TOKEN_KB;
       }
-      if (answers.name) { qs.name__icontains = answers.name; }
-      if (answers.slug) { qs.slug = answers.slug; }
-      if (answers.campaign) { qs.campaign = staticIds.campaignIds[answers.campaign]; }
-      if (answers.topic) { qs.topic = staticIds.topicIds[answers.topic]; }
+      if (answersObj.name) { qs.name__icontains = answersObj.name; }
+      if (answersObj.slug) { qs.slug = answersObj.slug; }
+      if (answersObj.campaign) { qs.campaign = staticIds.campaignIds[answersObj.campaign]; }
+      if (answersObj.topic) { qs.topic = staticIds.topicIds[answersObj.topic]; }
       // Blog Post, GET query string
-      if (answers.contentType === 'blog-posts') {
-        qs.content_group_id = staticIds.groupIds[answers.contentGroupId];
-        if (answers.postState !== 'ALL') { qs.state = answers.postState; }
+      if (answersObj.contentType === 'blog-posts') {
+        qs.content_group_id = staticIds.groupIds[answersObj.contentGroupId];
+        if (answersObj.postState !== 'ALL') { qs.state = answersObj.postState; }
       }
       // Pages, GET query string
-      if (answers.contentType === 'pages') {
-        qs.draft = answers.draft;
+      if (answersObj.contentType === 'pages') {
+        qs.draft = answersObj.draft;
       }
-    } else if (answers.method === 'update') {
+    } else if (answersObj.method === 'update') {
 
     }
     console.log("query string: " + JSON.stringify(qs));
@@ -97,5 +96,21 @@ var getUtils = {
     });
   }
 };
+
+
+var getUtils = (function() {
+  var file = 0;
+  function buildGetQueryString() {
+    file = 5;
+  }
+
+  function thing() {
+    buildGetQueryString();
+  }
+
+  return {
+    buildGetQueryString: buildGetQueryString,
+  };
+})();
 
 module.exports = getUtils;
