@@ -79,6 +79,16 @@ var updateUtils = {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
 function makeUpdateRequest (jsonObj, cosContentType, queryString) {
   function putContentUpdates(element) {
     var pageId = element.id;
