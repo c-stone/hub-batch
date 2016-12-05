@@ -191,8 +191,8 @@ module.exports = (function() {
     });
   }
   return {
-    makeGetRequest: makeGetRequest,
-    buildGetQueryString: buildGetQueryString,
-    fetchPageInfo: fetchPageInfo
+    makeGetRequest: makeGetRequest
+    // buildGetQueryString: buildGetQueryString,
+    // fetchPageInfo: fetchPageInfo
   };
 })();

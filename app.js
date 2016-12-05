@@ -12,6 +12,19 @@ var getUtils = require('./js/modules/getutils'),
 
 /////NOTE I need to figure out how to handle the query string for blog vs pages
 // var csvFileName = './imports/' + process.argv[3];
+//
+// function fetchCsvData(csvFileName) {
+//   var obj = {};
+//   console.log(csvFileName);
+//   csvConverter=new Converter({}); // new converter instance
+//   csvConverter.on('end_parsed', function(jsonObj) { // Converts csv to json object
+//
+//   });
+//   fs.createReadStream(csvFileName).pipe(csvConverter); //read from file
+//   return obj;
+// }
+
+
 
 cliUtils.showFiglet();
 cliUtils.getUserPreferences(function(answersObj) {
@@ -19,7 +32,7 @@ cliUtils.getUserPreferences(function(answersObj) {
   if ( method === 'get' ) {
     getUtils.makeGetRequest(answersObj);
   } else if ( method === 'update' ) {
-    updateUtils.makeUpdateRequest(arguments);
+    updateUtils.makeUpdateRequest(answersObj);
   } else if ( method === 'publish' ) {
 
   }
