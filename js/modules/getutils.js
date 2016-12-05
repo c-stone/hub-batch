@@ -16,33 +16,27 @@ module.exports = (function() {
 
   function buildGetQueryString(answersObj) {
     var qs = {};
-    // console.log(answersObj);
-    if (answersObj.method === 'get') {
-      // All Get Requests
-      qs.limit = 2500;
-      if (process.env.AUTH_TYPE === "access_token") {
-        qs.access_token = process.env.ACCESS_TOKEN_KB;
-      }
-      if (process.env.AUTH_TYPE === "hapikey") {
-        qs.hapikey = process.env.ACCESS_TOKEN_KB;
-      }
-      if (answersObj.name) { qs.name__icontains = answersObj.name; }
-      if (answersObj.slug) { qs.slug = answersObj.slug; }
-      if (answersObj.campaign) { qs.campaign = staticIds.campaignIds[answersObj.campaign]; }
-      if (answersObj.topic) { qs.topic = staticIds.topicIds[answersObj.topic]; }
-      // Blog Post, GET query string
-      if (answersObj.contentType === 'blog-posts') {
-        qs.content_group_id = staticIds.groupIds[answersObj.contentGroupId];
-        if (answersObj.postState !== 'ALL') { qs.state = answersObj.postState; }
-      }
-      // Pages, GET query string
-      if (answersObj.contentType === 'pages') {
-        qs.draft = answersObj.draft;
-      }
-    } else if (answersObj.method === 'update') {
-
+    // All Get Requests
+    qs.limit = 2500;
+    if (process.env.AUTH_TYPE === "access_token") {
+      qs.access_token = process.env.ACCESS_TOKEN_KB;
     }
-    console.log("query string: " + JSON.stringify(qs));
+    if (process.env.AUTH_TYPE === "hapikey") {
+      qs.hapikey = process.env.ACCESS_TOKEN_KB;
+    }
+    if (answersObj.name) { qs.name__icontains = answersObj.name; }
+    if (answersObj.slug) { qs.slug = answersObj.slug; }
+    if (answersObj.campaign) { qs.campaign = staticIds.campaignIds[answersObj.campaign]; }
+    if (answersObj.topic) { qs.topic = staticIds.topicIds[answersObj.topic]; }
+    // Blog Post, GET query string
+    if (answersObj.contentType === 'blog-posts') {
+      qs.content_group_id = staticIds.groupIds[answersObj.contentGroupId];
+      if (answersObj.postState !== 'ALL') { qs.state = answersObj.postState; }
+    }
+    // Pages, GET query string
+    if (answersObj.contentType === 'pages') {
+      qs.draft = answersObj.draft;
+    }
     return qs;
   }
 
