@@ -18,7 +18,6 @@ module.exports = (function() {
     var qs = {};
     // All Get Requests
     qs.limit = 2500;
-    setAuthType();
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
