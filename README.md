@@ -19,8 +19,8 @@ Information about about the APIs used can be found on HubSpot developer document
 This tool requires node.js. [You can install Node here](https://nodejs.org/en/).
 
 ### Installation
-Clone this project and save it on your machine. We will need to customize a couple of files to begin.
-
+To install Hub-batch, run the follow command:
+`npm install hub-batch -g`
 ### Authentication
 In order to make requests over the API, we will need to supply one form of authentication. You can use either and access_token
 or a hapikey. Place your specific authentication credentials in the file labeled sample.env. Follow the instructions within that
