@@ -1,6 +1,7 @@
 # Environment Configuration file
 .env
 *.jshintrc
+.npmrc
 
 # Logs
 logs
