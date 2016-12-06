@@ -4,7 +4,6 @@ var request = require("request"),
     Converter = require('csvtojson').Converter,
     count = 1;
 
-
 var csvFileName,
     queryString,
     cosContentType;

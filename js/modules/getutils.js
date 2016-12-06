@@ -8,7 +8,6 @@ var fs = require('fs'),
 
 module.exports = (function() {
   function makeGetRequest(answersObj) {
-    // var answersObj = arguments[0]; // answersObj from users command line input
     var queryString = buildGetQueryString(answersObj),
         cosContentType = answersObj.contentType,
         filter = contentFilters.noFilter;
