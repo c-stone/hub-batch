@@ -1,6 +1,6 @@
 {
-  "name": "Hub-Batch",
-  "version": "1.0.0",
+  "name": "hub-batch",
+  "version": "1.0.1",
   "description": "Command line utility for getting/updating/publishing COS Content. Work with Blog Posts and Site Pages",
   "keywords": [
     "hubspot",
