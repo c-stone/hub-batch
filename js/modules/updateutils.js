@@ -38,6 +38,7 @@ module.exports = (function() {
   function putContentUpdates(pageData) {
     var pageId = pageData.id;
     delete pageData.id; // remove ID from data, since only used in request
+    if (pageData.editLink) { delete pageData.editLink; } // Remove editlink from data
     // Format Request
     var options = {
       method: 'PUT',

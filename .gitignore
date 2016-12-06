@@ -2,6 +2,7 @@
 .env
 *.jshintrc
 .npmrc
+staticids.js
 
 # Logs
 logs
