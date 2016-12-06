@@ -14,17 +14,17 @@ from that folder. More on CSV formatting later..
 
 Information about about the APIs used can be found on HubSpot developer documentation for [blog posts](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts) and [site pages](http://developers.hubspot.com/docs/methods/pages/get_pages).
 
-### Getting Started
+## Getting Started
 Clone this project and save it on your machine. We will need to customize a couple of files to begin.
 
-**Authentication**
+### Authentication
 In order to make requests over the API, we will need to supply one form of authentication. You can use either and access_token
 or a hapikey. Place your specific authentication credentials in the file labeled sample.env. Follow the instructions within that
 file.
 
 Once your .env file is saved, you are ready to move on.
 
-**Static IDs**
+### Static IDs
 This tool allows you to quickly filter your get requests by blog groups, campaigns, or topics. Since this information is unique to each HubSpot portal, you will need to populate the file `js/static/staticids.js` with your own IDs. Place any blog groups, campaigns or topics into that file, and they will automatically appear when using this tool.
 
 Resources for finding each type of GUID:
@@ -35,7 +35,7 @@ To find a campaign GUID, click on the campaign in app and the GUID will appear i
 
 After you complete these two steps, you are ready to begin.
 
-### Usage
+## Usage
 
 To start the application, open a terminal window and navigate to this project's folder. Next, run `./app.js`
 This will initiate a series of questions to build your request.
@@ -46,8 +46,8 @@ This will initiate a series of questions to build your request.
 - Next, you will select the type of request you would like to make
 
 
-### Request Types
-**GET**
+## Request Types
+### GET
 This action returns a CSV and JSON file containing the follow page/blog-post data by default:
 - URL
 - The HTML body of the post or page
@@ -78,7 +78,7 @@ The CSV and JSON files will appear in the EXPORT folder in this project's direct
 You can edit the CSV in Excel, making use of find/replace to edit content in bulk. You
 will then have the ability to use this CSV to update all of the pages within.
 
-**UPDATE**
+### UPDATE
 To update pages in HubSpot, place a properly formatted CSV file in the IMPORTS folder.
 An example of a properly formatted CSV is provided. All CSV files returned by this tool
 will also be in the correct format. If you make edits to a file in the EXPORTS folder, move
@@ -90,6 +90,6 @@ tool will begin updating the pages. The updates are saved in "[Buffer](http://de
 can see the updates within your HubSpot portal, by editing any of the updated pages. You will need to
 use the publish portion of this tool to push your changes live.
 
-**PUBLISH**
+### PUBLISH
 When selecting the PUBLISH action, you will be prompted to select a file, just like with the UPDATE action.
 Select the file that contains the pages you would like to publish.
