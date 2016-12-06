@@ -31,6 +31,7 @@
     "type": "git",
     "url": "https://github.com/c-stone/hub-batch"
   },
+  "bin" : "./app.js",
   "devDependencies": {},
   "dependencies": {
     "async": "^2.1.1",
