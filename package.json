@@ -13,9 +13,9 @@
     "publish",
     "bulk"
   ],
-  "homepage": "https://git.hubteam.com/cstone/migration-utilities",
+  "homepage": "https://github.com/c-stone/hub-batch",
   "bugs": {
-    "url": "https://git.hubteam.com/cstone/migration-utilities/issues",
+    "url": "https://github.com/c-stone/hub-batch/issues",
     "email": "chris.stone603@gmail.com"
   },
   "main": "app.js",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.hubteam.com/cstone/migration-utilities"
+    "url": "https://github.com/c-stone/hub-batch"
   },
   "devDependencies": {},
   "dependencies": {
