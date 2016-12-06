@@ -15,6 +15,10 @@ from that folder. More on CSV formatting later..
 Information about about the APIs used can be found on HubSpot developer documentation for [blog posts](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts) and [site pages](http://developers.hubspot.com/docs/methods/pages/get_pages).
 
 ## Getting Started
+### Prerequisite
+This tool requires node.js. [You can install Node here](https://nodejs.org/en/).
+
+### Installation
 Clone this project and save it on your machine. We will need to customize a couple of files to begin.
 
 ### Authentication
