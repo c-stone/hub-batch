@@ -27,10 +27,10 @@ module.exports = (function() {
     var answers = answersObj[0];
     var qs = {};
     if (process.env.AUTH_TYPE === "access_token") {
-      qs.access_token = process.env.ACCESS_TOKEN_KB;
+      qs.access_token = process.env.AUTH_TOKEN;
     }
     if (process.env.AUTH_TYPE === "hapikey") {
-      qs.hapikey = process.env.ACCESS_TOKEN_KB;
+      qs.hapikey = process.env.AUTH_TOKEN;
     }
     return qs;
   }

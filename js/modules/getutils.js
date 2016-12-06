@@ -19,10 +19,10 @@ module.exports = (function() {
     // All Get Requests
     qs.limit = 2500;
     if (process.env.AUTH_TYPE === "access_token") {
-      qs.access_token = process.env.ACCESS_TOKEN_KB;
+      qs.access_token = process.env.AUTH_TOKEN;
     }
     if (process.env.AUTH_TYPE === "hapikey") {
-      qs.hapikey = process.env.ACCESS_TOKEN_KB;
+      qs.hapikey = process.env.AUTH_TOKEN;
     }
     if (answersObj.name) { qs.name__icontains = answersObj.name; }
     if (answersObj.slug) { qs.slug = answersObj.slug; }
