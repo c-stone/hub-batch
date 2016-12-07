@@ -1,5 +1,5 @@
 #Hub-Batch
-[![NPM](https://nodei.co/npm/hub-batch.png?downloads=true&stars=true)](https://nodei.co/npm/hub-batch/)
+###[![NPM](https://nodei.co/npm/hub-batch.png?downloads=true&stars=true)](https://nodei.co/npm/hub-batch/)
 
 This tool allows anyone to easily export their COS blog posts, or site pages using our public APIs into a CSV format. You can refine the pages or posts exported with a few different criteria: campaign, blog groups, topic, name, slug and more. The resulting CSV will contain that following information by default for each page/post exported:
 - URL
