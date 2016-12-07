@@ -1,16 +1,15 @@
 #Hub-Batch
-A command line utility for gathering, editing and updating HubSpot COS blog posts and pages. This tool will
-prompt you with a series of options, for example:
-- Would you like to GET, UPDATE or PUBLISH COS Content?
-- Are you working with Blog Posts or Site Pages?
-- You will be given options to refine your GET request or to select a CSV file to be used to UDATE/PUBLISH your content.
+[![NPM](https://nodei.co/npm/hub-batch.png?downloads=true&stars=true)](https://nodei.co/npm/hub-batch/)
+This tool allows anyone to easily export their COS blog posts, or site pages using our public APIs into a CSV format. You can refine the pages or posts exported with a few different criteria: campaign, blog groups, topic, name, slug and more. The resulting CSV will contain that following information by default for each page/post exported:
+- URL
+- Post Body
+- Meta Description
+- Name
+- ID
+- Slug
+- HubSpot Edit Link
 
-A GET request will return your page data in CSV and JSON formats into the folder labeled EXPORTS. More on the page information
-returned later...
-
-You can UPDATE or PUBLISH content using CSV files as well. A correctly formatted CSV should be
-placed in the IMPORTS folder. When performing an UPDATE or PUBLISH request, you will be able to select any
-from that folder. More on CSV formatting later..
+And that's just the default. You can customize the tool to output whichever properties you'd like (even custom modules!). Once you have the CSV, pop open Excel and make whichever changes you see fit to any of the properties. Find/Replace can be really handy when going through a rebrand for example. After you've finished making bulk changes in the CSV, you can select the file within Hub-Batch to update and publish all of the changes, like magic.
 
 Information about about the APIs used can be found on HubSpot developer documentation for [blog posts](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts) and [site pages](http://developers.hubspot.com/docs/methods/pages/get_pages).
 
@@ -19,17 +18,17 @@ Information about about the APIs used can be found on HubSpot developer document
 This tool requires node.js. [You can install Node here](https://nodejs.org/en/).
 
 ### Installation
-To install Hub-batch, run the follow command:
-`npm install hub-batch -g`
+`npm install -g hub-batch`
+
 ### Authentication
-In order to make requests over the API, we will need to supply one form of authentication. You can use either and access_token
-or a hapikey. Place your specific authentication credentials in the file labeled sample.env. Follow the instructions within that
-file.
+In order to make requests over the API, we will need to supply one form of authentication. You can use either an `access_token`
+or a `hapikey`. Place your specific authentication credentials in the file labeled sample.env. Follow the instructions within that
+file. You will need to rename this file `.env` (remove 'sample').
 
 Once your .env file is saved, you are ready to move on.
 
 ### Static IDs
-This tool allows you to quickly filter your get requests by blog groups, campaigns, or topics. Since this information is unique to each HubSpot portal, you will need to populate the file `js/static/staticids.js` with your own IDs. Place any blog groups, campaigns or topics into that file, and they will automatically appear when using this tool.
+This tool allows you to quickly filter your get requests by __blog groups__, __campaigns__, __topics__, __page name__ and/or __URL slug___. Since this information is unique to each HubSpot portal, you will need to populate the file `js/static/staticids.js` with your own IDs. Place any blog groups, campaigns or topics into that file, and they will automatically appear when using this tool.
 
 Resources for finding each type of GUID:
 [List Blog Groups](http://developers.hubspot.com/docs/methods/blogv2/get_blogs)
@@ -41,13 +40,16 @@ After you complete these two steps, you are ready to begin.
 
 ## Usage
 
-To start the application, open a terminal window and navigate to this project's folder. Next, run `./app.js`
-This will initiate a series of questions to build your request.
+To start the application, open a terminal window and run
+`$ hub-batch`
 
 ![hub-batch sample image](https://i.imgur.com/19d4hr3.png)
 
 - First you will be asked if you are working with Blog Post or Site pages
-- Next, you will select the type of request you would like to make
+- Next, you will select the type of request you would like to make:
+  - __GET__: return a CSV and JSON file with page data information
+  - __UPDATE__: Intakes a CSV and saves the changes [in buffer](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts_blog_post_id_buffer)
+  - __PUBLISH__: Takes the changes saved in buffer and pushes them live
 
 
 ## Request Types
@@ -78,18 +80,16 @@ For Site Pages:
 - By the post's Name
 - By the post's URL slug
 
-The CSV and JSON files will appear in the EXPORT folder in this project's directory.
-You can edit the CSV in Excel, making use of find/replace to edit content in bulk. You
-will then have the ability to use this CSV to update all of the pages within.
+The CSV and JSON files will appear in the ___EXPORTS___ folder in this project's directory.
 
 ### UPDATE
-To update pages in HubSpot, place a properly formatted CSV file in the IMPORTS folder.
-An example of a properly formatted CSV is provided. All CSV files returned by this tool
-will also be in the correct format. If you make edits to a file in the EXPORTS folder, move
-it into the IMPORTS folder once you are ready to update the pages. The CSV file *MUST* contain the
+To update pages in HubSpot, place a properly formatted CSV file in the __IMPORTS__ folder.
+An example of a properly formatted CSV is provided (__coscontentexport-sample.csv__). All CSV files returned by this tool
+will also be in the correct format. If you make edits to a file in the __EXPORTS__ folder, move
+it into the __IMPORTS__ folder once you are ready to update the pages. The CSV file _MUST_ contain the
 ID field, at least. Any other fields are optional.
 
-Select the UPDATE option within Hub-Batch. You will then be asked to select a CSV file and then
+Select the UPDATE option within Hub-Batch. You will then be asked to select a CSV file and the
 tool will begin updating the pages. The updates are saved in "[Buffer](http://developers.hubspot.com/docs/methods/blogv2/get_blog_posts_blog_post_id_buffer)". You
 can see the updates within your HubSpot portal, by editing any of the updated pages. You will need to
 use the publish portion of this tool to push your changes live.
