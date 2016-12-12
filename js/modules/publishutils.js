@@ -40,7 +40,8 @@ module.exports = (function() {
     // Format Request
     var options = {
       method: 'POST',
-      url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+ pageId + '/publish-action',
+      url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+
+            pageId + '/publish-action',
       qs: queryString,
       headers:{
         'cache-control': 'no-cache',

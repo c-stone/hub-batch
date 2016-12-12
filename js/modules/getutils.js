@@ -49,12 +49,14 @@ module.exports = (function() {
     };
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      if (response.statusCode !== 200) {
+      if (response.statusCode !== 200)
+      {
         throw new Error(response.statusCode + ": " + response.body);
       }
-      var parsedBody = JSON.parse(body);
-      var portalId = parsedBody.objects[0].portal_id,
-          cosContentJson = parsedBody.objects.map(function (object) {
+
+      // Build CSV and JSON from Body of response
+      var parsedContentData = JSON.parse(body),
+          csvContent = parsedContentData.objects.map(function (object) {
             var csvProperties =
             { // DEFAULT
               url: object.url,
@@ -72,19 +74,19 @@ module.exports = (function() {
               // topic_ids: object.topic_ids
             };
             return csvProperties;
-          }).filter(filter), //Optional .filter();
-
-          fields = Object.keys(cosContentJson[0]), // fields returned in the csv
-          csv = json2csv({ data: cosContentJson, fields: fields });
+          }).filter(filter),
+          csvHeaders = Object.keys(csvContent),// headers returned in the csv
+          completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
+          cosContentJSON = JSON.stringify(csvContent),
+          portalId = parsedContentData.objects[0].portal_id; //ID used in output file title
       // Creates JSON file
-      fs.writeFile('./exports/coscontentexport-' + portalId + '.json',
-         JSON.stringify(cosContentJson),
+      fs.writeFile('./exports/coscontentexport-'+portalId+'.json', cosContentJSON,
          function (err) {
            if (err) { return console.log("error: " + err); }
            console.log("The JSON file was saved!");
          });
       // Creates CSV file
-      fs.writeFile('./exports/coscontentexport-' + portalId + '.csv', csv,
+      fs.writeFile('./exports/coscontentexport-'+portalId+'.csv', completeCSV,
         function(err) {
           if (err) throw err;
           console.log('The CSV file was saved');
