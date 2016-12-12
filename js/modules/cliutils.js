@@ -9,8 +9,8 @@ var contentFilters = require('../static/contentfilters');
 var fetchPageInfo = require('../modules/getutils');
 
 var importsFolder = './././imports/';
-var filesArr = getImportFilesArray(); // creates array of files in ./js/imports
-filesArr.shift();
+var importFilesArr = getImportFilesArray(); // creates array of files in ./js/imports
+importFilesArr.shift();
 
 function getImportFilesArray() {
   return fs.readdirSync(importsFolder, function(err, files) {
@@ -41,7 +41,7 @@ var cliUtils = {
         name: 'method',
         type: 'list',
         message: 'What type of operation would you like to perform?:',
-        choices: ['get', 'update', 'publish']
+        choices: ['get', 'update', 'publish', 'rollback']
       },
         // Begin GET Options
         { // GET: If BLOG POSTS is selected
@@ -154,9 +154,17 @@ var cliUtils = {
         name: 'importFilename',
         type: 'list',
         message: 'Which file you would like to import?:',
-        choices: filesArr,
+        choices: importFilesArr,
         when: answers => (answers.method !== 'get')
       },
+      // Begin ROLLBACK options
+      {
+        name: 'rollbackFilename',
+        type: 'list',
+        message: 'Which file contains the content you\'d like to rollback 1 version?:',
+        choices: importFilesArr,
+        when: answers => (answers.method !== 'rollback')
+      }
     ];
     // Ask user questions, then run a callback function
     inquirer.prompt(questions).then(callback);
