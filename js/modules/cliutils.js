@@ -118,7 +118,7 @@ var cliUtils = {
           { // GET: If Name is selected
             name: 'name',
             type: 'input',
-            message: 'Return page names containing:',
+            message: 'Return page names containing the following word(s):',
             validate: function(input) {
               if (input.length) {
                 return true;
@@ -135,7 +135,7 @@ var cliUtils = {
           { // GET: If Slug Name is selected
             name: 'slug',
             type: 'input',
-            message: 'Return content with a slug containing:',
+            message: 'Return content with a slug containing (exact match):',
             validate: function(input) {
               if (input.length) {
                 return true;
