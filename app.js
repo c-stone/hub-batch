@@ -7,6 +7,11 @@ var getUtils = require('./js/modules/getutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
     cliUtils = require('./js/modules/cliutils');
 
+//TODO check for env file
+function checkForEnvFile() {
+
+}
+
 cliUtils.showFiglet();
 cliUtils.getUserPreferences(function(answersObj) {
   var method = answersObj.method;

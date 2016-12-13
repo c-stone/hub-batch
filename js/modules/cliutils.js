@@ -163,7 +163,7 @@ var cliUtils = {
         type: 'list',
         message: 'Which file contains the content you\'d like to rollback 1 version?:',
         choices: importFilesArr,
-        when: answers => (answers.method !== 'rollback')
+        when: answers => (answers.method === 'rollback')
       }
     ];
     // Ask user questions, then run a callback function

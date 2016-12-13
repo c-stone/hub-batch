@@ -74,8 +74,9 @@ module.exports = (function() {
               // topic_ids: object.topic_ids
             };
             return csvProperties;
-          }).filter(filter),
-          csvHeaders = Object.keys(csvContent),// headers returned in the csv
+          });//.filter(filter);
+                  console.log(csvHeaders, csvContent);
+          var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
           completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
           cosContentJSON = JSON.stringify(csvContent),
           portalId = parsedContentData.objects[0].portal_id; //ID used in output file title
