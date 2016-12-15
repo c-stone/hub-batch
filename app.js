@@ -5,15 +5,13 @@ var getUtils = require('./js/modules/getutils'),
     updateUtils = require('./js/modules/updateutils'),
     publishUtils = require('./js/modules/publishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
+    authUtils = require('./js/modules/authutils'),
     cliUtils = require('./js/modules/cliutils');
 
-//TODO check for env file
-function checkForEnvFile() {
-
-}
 
 cliUtils.showFiglet();
 cliUtils.getUserPreferences(function(answersObj) {
+  authUtils.checkAuthentication(answersObj);
   var method = answersObj.method;
   if ( method === 'get' ) {
     getUtils.makeGetRequest(answersObj);

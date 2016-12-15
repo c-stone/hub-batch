@@ -75,23 +75,25 @@ module.exports = (function() {
             };
             return csvProperties;
           });//.filter(filter);
-                  console.log(csvHeaders, csvContent);
+          console.log(csvHeaders, csvContent);
           var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
           completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
           cosContentJSON = JSON.stringify(csvContent),
           portalId = parsedContentData.objects[0].portal_id; //ID used in output file title
       // Creates JSON file
       fs.writeFile('./exports/coscontentexport-'+portalId+'.json', cosContentJSON,
-         function (err) {
-           if (err) { return console.log("error: " + err); }
-           console.log("The JSON file was saved!");
-         });
+        function (err) {
+         if (err) { return console.log("error: " + err); }
+         console.log("The JSON file was saved!");
+        }
+      );
       // Creates CSV file
       fs.writeFile('./exports/coscontentexport-'+portalId+'.csv', completeCSV,
         function(err) {
           if (err) throw err;
           console.log('The CSV file was saved');
-        });
+        }
+      );
     });
   }
 
