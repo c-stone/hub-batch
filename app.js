@@ -8,7 +8,6 @@ var getUtils = require('./js/modules/getutils'),
     authUtils = require('./js/modules/authutils'),
     cliUtils = require('./js/modules/cliutils');
 
-
 cliUtils.showFiglet();
 cliUtils.getUserPreferences(function(answersObj) {
   authUtils.checkAuthentication(answersObj);

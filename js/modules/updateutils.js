@@ -11,16 +11,16 @@ var csvFileName,
 
 module.exports = (function() {
   function makeUpdateRequest(answersObj) {
-      cosContentType = answersObj.contentType;
-      queryString = buildUpdateQueryString(answersObj);
-      csvFileName = './imports/' + answersObj.importFilename;
+    cosContentType = answersObj.contentType;
+    queryString = buildUpdateQueryString(answersObj);
+    csvFileName = './imports/' + answersObj.importFilename;
 
-      fetchCsvData(csvFileName).then(function(pageDataObject) {
-        return createBatches(pageDataObject);
-      })
-      .then(function(batchedPagesObject) {
-        batchUpdateContent(batchedPagesObject);
-      });
+    fetchCsvData(csvFileName).then(function(pageDataObject) {
+      return createBatches(pageDataObject);
+    })
+    .then(function(batchedPagesObject) {
+      batchUpdateContent(batchedPagesObject);
+    });
   }
 
   function buildUpdateQueryString(answersObj) {
@@ -51,7 +51,7 @@ module.exports = (function() {
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
       if (response.statusCode !== 200) {
-        throw new Error(response.statusCode+": "+JSON.stringify(response.body));
+        console.log(response.statusCode+": "+JSON.stringify(response.body));
       }
       console.log([response.statusCode, pageId]);
     });
