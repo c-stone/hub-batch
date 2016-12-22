@@ -5,12 +5,12 @@ var getUtils = require('./js/modules/getutils'),
     updateUtils = require('./js/modules/updateutils'),
     publishUtils = require('./js/modules/publishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
-    authUtils = require('./js/modules/authutils'),
+    setupUtils = require('./js/modules/setuputils'),
     cliUtils = require('./js/modules/cliutils');
 
 cliUtils.showFiglet();
 cliUtils.getUserPreferences(function(answersObj) {
-  authUtils.checkAuthentication(answersObj);
+  setupUtils.checkAuthentication(answersObj);
   var method = answersObj.method;
   if ( method === 'get' ) {
     getUtils.makeGetRequest(answersObj);

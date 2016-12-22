@@ -1,19 +1,23 @@
 require('dotenv').config();
-var chalk = require('chalk');
-var clear = require('clear');
-var figlet = require('figlet');
-var inquirer = require('inquirer');
-var fs = require('fs');
-var staticIds = require('../static/staticids');
-var contentFilters = require('../static/contentfilters');
-var fetchPageInfo = require('../modules/getutils');
+var chalk = require('chalk'),
+    clear = require('clear'),
+    figlet = require('figlet'),
+    inquirer = require('inquirer'),
+    fs = require('fs'),
+    helpers = require('./helpers'),
+    staticIds = require('../static/staticids'),
+    contentFilters = require('../static/contentfilters');
 
 var importsFolder = './././imports/';
-var importFilesArr = getImportFilesArray(); // creates array of files in ./js/imports
+var importFilesArr = helpers.getFolders(importsFolder); // creates array of files in ./js/imports
 importFilesArr.shift();
 
-function getImportFilesArray() {
-  return fs.readdirSync(importsFolder, function(err, files) {
+
+
+function getDirectoryFilesArray(path) {
+  return fs.readdirSync(path, function(err, files) {
+    console.log("FILES" + files);
+    return files.filter(contentFilters.noFilter);
   });
 }
 
