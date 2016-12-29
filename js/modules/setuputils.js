@@ -2,11 +2,11 @@ var request = require("request"),
     inquirer = require('inquirer'),
     fs = require('fs'),
     helpers = require('./helpers'),
+    config = require('../static/config.json'),
     contentFilters = require('../static/contentfilters');
 
 var homeDirectory = process.env.HOME;
 
-//TODO: set up dotenv path using user input!
 var setup = {
   getSetupDetails: function() {
     var questions = [
@@ -14,7 +14,8 @@ var setup = {
         name: 'directoryPath',
         type: 'list',
         message: 'Where would you like to place the hub-batch working directory?',
-        choices: helpers.getFolders(homeDirectory)
+        choices: helpers.getFolders(homeDirectory),
+        when: (!config.usersFolder)
       },
       {
         name: 'authType',
@@ -63,42 +64,42 @@ var setup = {
         headers: {'cache-control': 'no-cache'}
       };
       options.qs[authType] = authToken;
-      console.log(options);
       request(options, function (error, response, body) {
         if (error) { reject(Error(response.statusCode+": "+
                                   JSON.stringify(response.body))); }
+
         resolve(response.statusCode);
       });
     });
   },
-  createEnvFile: function(answersObj, path) {
+  createConfigFiles: function(answersObj, path) {
     var envFile = 'AUTH_TYPE=' + answersObj.authType + '\n' +
                   'AUTH_TOKEN=' + answersObj.authToken + '\n' +
-                  'HUB_ID=' + answersObj.hubId + '\n' +
-                  'HOMEDIR=' + answersObj.directoryPath;
+                  'HUB_ID=' + answersObj.hubId + '\n';
+        configFile = JSON.stringify({
+          usersFolder: answersObj.directoryPath
+        });
+
+
     fs.writeFile(path+'/.env', envFile, function (err) {
        if (err) { return console.log("error: " + err); }
        console.log("The ENV file was saved!");
     });
+    fs.writeFile('./js/static/config.json', configFile, function (err) {
+       if (err) { return console.log("error: " + err); }
+       console.log("The config file was saved!");
+    });
   },
   createHubBatchFolder: function(answersObj) {
-    var userSelectedFolder = process.env.HOME+'/'+
-                             answersObj.directoryPath+'/hub-batch';
+    var userSelectedFolder = process.env.HOME+ '/'+
+                             answersObj.directoryPath+ '/hub-batch';
     fs.mkdir(userSelectedFolder, function() {
-      fs.mkdirSync(userSelectedFolder + '/imports');
-      fs.mkdirSync(userSelectedFolder + '/export');
+      fs.mkdirSync(userSelectedFolder+ '/imports');
+      fs.mkdirSync(userSelectedFolder+ '/exports');
     });
-    setup.createEnvFile(answersObj, userSelectedFolder);
-    require('dotenv').config({path: userSelectedFolder+'/.env'});
+    setup.createConfigFiles(answersObj, userSelectedFolder);
   }
 };
 
-testObj = {
-  directoryPath: "Documents",
-  authType: 'access_token',
-  authToken: '666555-555666-556655-66565555-666-666-666',
-  hubId: '53'
-};
 
-// setup.createHubBatchFolder(testObj);
-setup.getSetupDetails();
+module.exports = setup;

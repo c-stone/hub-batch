@@ -1,8 +1,9 @@
 var fs = require('fs'),
     request = require('request'),
     json2csv = require('json2csv'),
-    jsonCleaner = require('../static/jsoncleanerutilities'),
+    helpers = require('./helpers'),
     staticIds = require('../static/staticIds'),
+    config = require('../static/config'),
     contentFilters = require('../static/contentfilters');
 
 
@@ -60,7 +61,7 @@ module.exports = (function() {
             var csvProperties =
             { // DEFAULT
               url: object.url,
-              post_body: jsonCleaner.removeLineEnds(object.post_body),
+              post_body: helpers.removeLineEnds(object.post_body),
               meta_description: object.meta_description,
               name: object.name,
               id: object.id,
@@ -75,20 +76,20 @@ module.exports = (function() {
             };
             return csvProperties;
           });//.filter(filter);
-          console.log(csvHeaders, csvContent);
-          var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
+      var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
           completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
           cosContentJSON = JSON.stringify(csvContent),
-          portalId = parsedContentData.objects[0].portal_id; //ID used in output file title
+          portalId = parsedContentData.objects[0].portal_id,
+          exportsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/exports'; //ID used in output file title
       // Creates JSON file
-      fs.writeFile('./exports/coscontentexport-'+portalId+'.json', cosContentJSON,
+      fs.writeFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.json', cosContentJSON,
         function (err) {
-         if (err) { return console.log("error: " + err); }
+         if (err) { return console.log("error: "+ err); }
          console.log("The JSON file was saved!");
         }
       );
       // Creates CSV file
-      fs.writeFile('./exports/coscontentexport-'+portalId+'.csv', completeCSV,
+      fs.writeFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.csv', completeCSV,
         function(err) {
           if (err) throw err;
           console.log('The CSV file was saved');
@@ -96,7 +97,6 @@ module.exports = (function() {
       );
     });
   }
-
   return {
     makeGetRequest: makeGetRequest
   };

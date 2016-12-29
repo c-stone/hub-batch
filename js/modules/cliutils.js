@@ -1,4 +1,3 @@
-require('dotenv').config();
 var chalk = require('chalk'),
     clear = require('clear'),
     figlet = require('figlet'),
@@ -11,15 +10,6 @@ var chalk = require('chalk'),
 var importsFolder = './././imports/';
 var importFilesArr = helpers.getFolders(importsFolder); // creates array of files in ./js/imports
 importFilesArr.shift();
-
-
-
-function getDirectoryFilesArray(path) {
-  return fs.readdirSync(path, function(err, files) {
-    console.log("FILES" + files);
-    return files.filter(contentFilters.noFilter);
-  });
-}
 
 var cliUtils = {
   showFiglet: function() {
