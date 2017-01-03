@@ -35,7 +35,11 @@ var contentFilters = {
   },
   isUserGuide: function(arrayElement) {
     return arrayElement.slug.indexOf("user-guide") !== -1;
+  },
+  isNotHiddenFile: function(file) {
+    return file.indexOf(".") !== 0;
   }
+
 };
 
 module.exports = contentFilters;
