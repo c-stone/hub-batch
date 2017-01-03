@@ -37,7 +37,7 @@ var contentFilters = {
     return arrayElement.slug.indexOf("user-guide") !== -1;
   },
   isNotHiddenFile: function(file) {
-    return file.indexOf(".") === -1;
+    return file.indexOf(".") !== 0;
   }
 
 };

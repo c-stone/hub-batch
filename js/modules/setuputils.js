@@ -85,18 +85,30 @@ var setup = {
        if (err) { return console.log("error: " + err); }
        console.log("The ENV file was saved!");
     });
-    fs.writeFile('./js/static/config.json', configFile, function (err) {
-       if (err) { return console.log("error: " + err); }
-       console.log("The config file was saved!");
-    });
+    if (!config.usersFolder) {
+      fs.writeFile('./js/static/config.json', configFile, function (err) {
+         if (err) { return console.log("error: " + err); }
+         console.log("The Config file was saved!");
+      });
+    }
+    console.log("Configuration saved! Rerun hub-batch");
   },
   createHubBatchFolder: function(answersObj) {
-    var userSelectedFolder = process.env.HOME+ '/'+
-                             answersObj.directoryPath+ '/hub-batch';
-    fs.mkdir(userSelectedFolder, function() {
-      fs.mkdirSync(userSelectedFolder+ '/imports');
-      fs.mkdirSync(userSelectedFolder+ '/exports');
-    });
+    var userSelectedFolder;
+    if (answersObj.directoryPath) {
+      userSelectedFolder = process.env.HOME+ '/'+
+                           answersObj.directoryPath+ '/hub-batch';
+    }
+    if (config.usersFolder) {
+      userSelectedFolder = process.env.HOME+ '/'+
+                           config.usersFolder+ '/hub-batch';
+    }
+    if (!fs.existsSync(userSelectedFolder + "/imports")) {
+      fs.mkdir(userSelectedFolder, function() {
+        fs.mkdirSync(userSelectedFolder+ '/imports');
+        fs.mkdirSync(userSelectedFolder+ '/exports');
+      });
+    }
     setup.createConfigFiles(answersObj, userSelectedFolder);
   }
 };

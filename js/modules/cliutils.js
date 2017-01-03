@@ -4,12 +4,11 @@ var chalk = require('chalk'),
     inquirer = require('inquirer'),
     fs = require('fs'),
     helpers = require('./helpers'),
+    config = require('../static/config.json'),
     staticIds = require('../static/staticids'),
-    contentFilters = require('../static/contentfilters');
+    contentFilters = require('../static/contentfilters'),
+    importsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/imports';
 
-var importsFolder = './././imports/';
-var importFilesArr = helpers.getFolders(importsFolder); // creates array of files in ./js/imports
-importFilesArr.shift();
 
 var cliUtils = {
   showFiglet: function() {
@@ -148,15 +147,17 @@ var cliUtils = {
         name: 'importFilename',
         type: 'list',
         message: 'Which file you would like to import?:',
-        choices: importFilesArr,
-        when: answers => (answers.method !== 'get')
+        choices: helpers.getFolders(importsFolder),
+        when: function(answers){
+          if ( answers.method === 'update' || 'publish' ) { return true; }
+        }
       },
       // Begin ROLLBACK options
       {
         name: 'rollbackFilename',
         type: 'list',
         message: 'Which file contains the content you\'d like to rollback 1 version?:',
-        choices: importFilesArr,
+        choices: helpers.getFolders(importsFolder),
         when: answers => (answers.method === 'rollback')
       }
     ];

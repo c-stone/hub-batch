@@ -1,4 +1,4 @@
-var cheerio = require('cheerio');
+var cheerio = require('cheerio'),
     fs = require('fs'),
     contentFilters = require('../static/contentfilters');
 

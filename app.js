@@ -16,6 +16,7 @@ else if ( config.usersFolder ) {
                                   '/hub-batch/.env', silent: true});
   setup.isAuthTokenValid().then(function(status) {
     if ( status !== 200 ) {
+      console.log("Your auth token is invalid or has expired. Please re-enter:");
       setup.getSetupDetails();
     }
     else if ( status === 200 ) {
