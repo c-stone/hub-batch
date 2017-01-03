@@ -1,21 +1,14 @@
-require('dotenv').config();
-var chalk = require('chalk');
-var clear = require('clear');
-var figlet = require('figlet');
-var inquirer = require('inquirer');
-var fs = require('fs');
-var staticIds = require('../static/staticids');
-var contentFilters = require('../static/contentfilters');
-var fetchPageInfo = require('../modules/getutils');
+var chalk = require('chalk'),
+    clear = require('clear'),
+    figlet = require('figlet'),
+    inquirer = require('inquirer'),
+    fs = require('fs'),
+    helpers = require('./helpers'),
+    config = require('../static/config.json'),
+    staticIds = require('../static/staticids'),
+    contentFilters = require('../static/contentfilters'),
+    importsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/imports';
 
-var importsFolder = './././imports/';
-var importFilesArr = getImportFilesArray(); // creates array of files in ./js/imports
-importFilesArr.shift();
-
-function getImportFilesArray() {
-  return fs.readdirSync(importsFolder, function(err, files) {
-  });
-}
 
 var cliUtils = {
   showFiglet: function() {
@@ -154,16 +147,18 @@ var cliUtils = {
         name: 'importFilename',
         type: 'list',
         message: 'Which file you would like to import?:',
-        choices: importFilesArr,
-        when: answers => (answers.method !== 'get')
+        choices: helpers.getFolders(importsFolder),
+        when: function(answers){
+          if ( answers.method === 'update' || 'publish' ) { return true; }
+        }
       },
       // Begin ROLLBACK options
       {
         name: 'rollbackFilename',
         type: 'list',
         message: 'Which file contains the content you\'d like to rollback 1 version?:',
-        choices: importFilesArr,
-        when: answers => (answers.method !== 'rollback')
+        choices: helpers.getFolders(importsFolder),
+        when: answers => (answers.method === 'rollback')
       }
     ];
     // Ask user questions, then run a callback function

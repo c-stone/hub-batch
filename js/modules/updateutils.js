@@ -2,7 +2,9 @@ var request = require("request"),
     async = require("async"),
     fs = require('fs'),
     Converter = require('csvtojson').Converter,
-    count = 1; // used for displaying which batch is being processed
+    count = 1, // used for displaying which batch is being processed
+    config = require('../static/config.json'),
+    importsFolder = process.env.HOME+'/'+config.usersFolder+'/hub-batch/imports';
 
 // Global Variables set by user input
 var csvFileName,
@@ -11,21 +13,21 @@ var csvFileName,
 
 module.exports = (function() {
   function makeUpdateRequest(answersObj) {
-        cosContentType = answersObj.contentType;
-        queryString = buildUpdateQueryString(answersObj);
-        csvFileName = './imports/' + answersObj.importFilename;
+    cosContentType = answersObj.contentType;
+    queryString = buildUpdateQueryString(answersObj);
+    csvFileName = importsFolder+ '/'+ answersObj.importFilename;
 
-
-      fetchCsvData(csvFileName).then(function(pageDataObject) {
-        return createBatches(pageDataObject);
-      }).then(function(batchedPagesObject) {
-        batchUpdateContent(batchedPagesObject);
-      });
+    fetchCsvData(csvFileName).then(function(pageDataObject) {
+      return createBatches(pageDataObject);
+    })
+    .then(function(batchedPagesObject) {
+      batchUpdateContent(batchedPagesObject);
+    });
   }
 
   function buildUpdateQueryString(answersObj) {
-    var answers = answersObj[0];
-    var qs = {};
+    var answers = answersObj[0],
+        qs = {};
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
@@ -51,7 +53,7 @@ module.exports = (function() {
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
       if (response.statusCode !== 200) {
-        throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
+        console.log(response.statusCode+": "+JSON.stringify(response.body));
       }
       console.log([response.statusCode, pageId]);
     });
