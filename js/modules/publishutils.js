@@ -6,6 +6,7 @@ var request = require("request"),
     importsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/imports',
     count = 1;
 
+// Global Variables set by user input
 var csvFileName,
     queryString,
     cosContentType;
