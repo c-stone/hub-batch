@@ -9,6 +9,7 @@ A library the utilizes HubSpot APIs for bulk updating COS content (Blog Posts an
 4. __Rollback__ changes 1 revision _just in case_
 
 This tool has been used by HubSpot to bulk update content, with over 1000 pages updated at once.
+
 ![hub-batch UI](https://i.imgur.com/19d4hr3.png)
 
 ## Getting Started
@@ -52,14 +53,14 @@ Using the arrow keys, walk through the options provided:
 
 ![hub-batch UI](https://i.imgur.com/19d4hr3.png)
 
-After selected your preferences, the CSV will be created:
+After selecting your preferences, the CSV will be created:
 ![hub-batch sample IO](http://i.imgur.com/vwA2yNi.png)
 
 ## Documentation
 This documentation covers the 4 main features: GET, UPDATE, PUBLISH, ROLLBACK
 
 ### GET
-Use this option to create a CSV containing COS blog post/page data.
+Use this option to __Get__ a CSV containing COS blog post/page data.
 
 From terminal, run:
 ```
@@ -87,9 +88,8 @@ __For Site Pages:__
 	- Name
 	- Slug
 
-After selecting your options, hub-batch will create a CSV and place it in your exports folder.
+After selecting your options, hub-batch will create a CSV and place it in your exports folder. The resulting CSV will contain that following information by default for each page/post exported:
 
-The resulting CSV will contain that following information by default for each page/post exported:
 - URL
 - Post Body
 - Meta Description
@@ -101,7 +101,7 @@ The resulting CSV will contain that following information by default for each pa
 And that's just the default. You can customize the tool to output whichever properties you'd like (even custom modules!). Once you have the CSV, open the file in Google Sheets (Excel mangles special characters) and make any changes you see fit to any of the properties. Find/Replace can be really handy. This has been very useful when rebrand or making any other bulk changes to live content.
 
 ### UPDATE
-Use this option update the contents of COS blog post/page data. You will have the ability to select a CSV to import. [An example import file can be found here](https://gist.github.com/c-stone/5800dc3eeca6f11591453b52195536ce).
+Use this option __Update__ the contents of COS blog post/page data. You will have the ability to select a CSV to import. [An example import file can be found here](https://gist.github.com/c-stone/5800dc3eeca6f11591453b52195536ce).
 
 From terminal, run:
 ```
@@ -116,7 +116,7 @@ Using the arrow keys, select the following:
 After selecting the import file, Hub-Batch will begin updating each of the pages found in the CSV. __NOTE__ this will save the changes [in Buffer](http://developers.hubspot.com/docs/methods/pages/post_pages_page_id_publish_action), but will not push the changes live. To publish these changes, next use the PUBLISH option.
 
 ### PUBLISH
-Use this option to Publish pages that have been updated or have unpublished changes.
+Use this option to __Publish__ pages that have been updated or have unpublished changes.
 
 From terminal, run:
 ```
@@ -130,7 +130,7 @@ Using the arrow keys, select the following:
 After selecting the import file, Hub-Batch will begin publishing each of the pages found in the CSV.
 
 ### ROLLBACK
-Use this option to rollback published changes. This feature will revert any included pages 1 version.
+Use this option to __Rollback__ published changes. This feature will revert any included pages 1 version.
 
 From terminal, run:
 ```
