@@ -2,9 +2,9 @@ var request = require("request"),
     async = require("async"),
     fs = require('fs'),
     Converter = require('csvtojson').Converter,
-    count = 1, // used for displaying which batch is being processed
     config = require('../static/config.json'),
-    importsFolder = process.env.HOME+'/'+config.usersFolder+'/hub-batch/imports';
+    importsFolder = process.env.HOME+'/'+config.usersFolder+'/hub-batch/imports',
+    count = 1; // used for displaying which batch is being processed
 
 // Global Variables set by user input
 var csvFileName,

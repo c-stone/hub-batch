@@ -54,7 +54,6 @@ module.exports = (function() {
       {
         throw new Error(response.statusCode + ": " + response.body);
       }
-
       // Build CSV and JSON from Body of response
       var parsedContentData = JSON.parse(body),
           csvContent = parsedContentData.objects.map(function (object) {
