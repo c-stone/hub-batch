@@ -148,9 +148,8 @@ var cliUtils = {
         type: 'list',
         message: 'Which file you would like to import?:',
         choices: helpers.getFolders(importsFolder),
-        when: function(answers){
-          if ( answers.method === 'update' || 'publish' ) { return true; }
-        }
+        //TODO: this is appearing for GET as well as UPDATE/PUBLISH
+        when: answers => (answers.method === 'update' || answers.method === 'publish')
       },
       // Begin ROLLBACK options
       {
