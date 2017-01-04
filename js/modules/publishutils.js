@@ -13,16 +13,16 @@ var csvFileName,
 
 module.exports = (function() {
   function makePublishRequest(answersObj) {
-        cosContentType = answersObj.contentType;
-        queryString = buildUpdateQueryString(answersObj);
-        csvFileName = importsFolder + '/' + answersObj.importFilename;
+    cosContentType = answersObj.contentType;
+    queryString = buildUpdateQueryString(answersObj);
+    csvFileName = importsFolder + '/' + answersObj.importFilename;
 
-
-      fetchCsvData(csvFileName).then(function(pageDataObject) {
-        return createBatches(pageDataObject);
-      }).then(function(batchedPagesObject) {
-        batchUpdateContent(batchedPagesObject);
-      });
+    fetchCsvData(csvFileName).then(function(pageDataObject) {
+      return createBatches(pageDataObject);
+    })
+    .then(function(batchedPagesObject) {
+      batchUpdateContent(batchedPagesObject);
+    });
   }
 
   function buildUpdateQueryString(answersObj) {
@@ -40,23 +40,23 @@ module.exports = (function() {
   function publishContentUpdates(pageData) {
     var pageId = pageData.id;
     delete pageData.id; // remove ID from data, since only used in request
-    // Format Request
-    var options = {
+
+    var options = { // Format Request
       method: 'POST',
       url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+
             pageId + '/publish-action',
-      qs: queryString,
-      headers:{
+      headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/json'
       },
-      body: {action: 'schedule-publish'},
+      body: { action: 'schedule-publish' },
+      qs: queryString,
       json: true
     };
-    // Make Request
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-      if (response.statusCode !== 200) {
+
+    request(options, function (error, response, body) { // Make Request
+      if ( error ) throw new Error(error);
+      if ( response.statusCode !== 200 ) {
         throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
       }
       console.log([response.statusCode, pageId]);
@@ -68,7 +68,7 @@ module.exports = (function() {
       var batchArray = [];
       do { //populate batchArray with page content divided into 10s
         for (; pagesDataObject.length > 0;) {
-          batchArray.push(pagesDataObject.splice(0, 3)); //batchArray created
+          batchArray.push(pagesDataObject.splice(0, 3));
         }
       } while (pagesDataObject.lenth > 0);
       resolve(batchArray);
@@ -78,7 +78,7 @@ module.exports = (function() {
   function batchUpdateContent(batchedPagesObject) {
     async.eachLimit(batchedPagesObject, 1, function(collection, callback) {
         collection.forEach(publishContentUpdates);
-        console.log('Processing Collection #'+ count +' of '+ batchedPagesObject.length);
+        console.log('Processing Collection #'+ count+ ' of '+ batchedPagesObject.length);
         ++count;
         setTimeout(callback, 1000);
     },
@@ -95,7 +95,7 @@ module.exports = (function() {
     return new Promise(function(resolve, reject) {
       csvConverter=new Converter({}); // new converter instance
       csvConverter.on('end_parsed', function(pageDataObject) { // Converts csv to json object
-        if (pageDataObject) {
+        if ( pageDataObject ) {
           resolve(pageDataObject);
         }
         else {
@@ -106,7 +106,5 @@ module.exports = (function() {
     });
   }
 
-  return {
-    makePublishRequest: makePublishRequest,
-  };
+  return { makePublishRequest: makePublishRequest };
 })();
