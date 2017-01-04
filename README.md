@@ -2,6 +2,7 @@
 ###[![NPM](https://nodei.co/npm/hub-batch.png?downloads=true&stars=true)](https://nodei.co/npm/hub-batch/)
 
 A library the utilizes HubSpot APIs for bulk updating COS content (Blog Posts and Site Pages). Hub-Batch allows you to:
+
 1. __Export__ post/page information from HubSpot to a CSV file
 2. __Import__ post/page information to HubSpot from a CSV file
 3. __Update__ and __Publish__ live COS content
