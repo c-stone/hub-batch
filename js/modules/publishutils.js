@@ -2,6 +2,8 @@ var request = require("request"),
     async = require("async"),
     fs = require('fs'),
     Converter = require('csvtojson').Converter,
+    config = require('../static/config.json'),
+    importsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/imports',
     count = 1;
 
 var csvFileName,
@@ -12,7 +14,7 @@ module.exports = (function() {
   function makePublishRequest(answersObj) {
         cosContentType = answersObj.contentType;
         queryString = buildUpdateQueryString(answersObj);
-        csvFileName = './imports/' + answersObj.importFilename;
+        csvFileName = importsFolder + '/' + answersObj.importFilename;
 
 
       fetchCsvData(csvFileName).then(function(pageDataObject) {

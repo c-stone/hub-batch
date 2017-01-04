@@ -2,7 +2,10 @@ var request = require("request"),
     async = require("async"),
     fs = require('fs'),
     Converter = require('csvtojson').Converter,
+    config = require('../static/config.json'),
+    importsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/imports',
     count = 1;
+
 
 var csvFileName,
     queryString,
@@ -10,9 +13,10 @@ var csvFileName,
 
 module.exports = (function() {
   function makeRollbackRequest(answersObj) {
+    console.log(answersObj);
     cosContentType = answersObj.contentType;
     queryString = buildQueryString(answersObj);
-    csvFileName = './imports/' + answersObj.importFilename;
+    csvFileName = importsFolder + '/' + answersObj.rollbackFilename;
 
     fetchCsvData(csvFileName).then(function(pageDataObject) {
       return createBatches(pageDataObject);
