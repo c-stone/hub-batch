@@ -56,7 +56,7 @@ module.exports = (function() {
     // Make Request
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      if (response.statusCode !== 200) {
+      if (response.statusCode !== 204) {
         throw new Error(response.statusCode + ": " + JSON.stringify(response.body));
       }
       console.log([response.statusCode, pageId]);

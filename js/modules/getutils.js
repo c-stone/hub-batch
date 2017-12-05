@@ -18,7 +18,8 @@ module.exports = (function() {
   function buildGetQueryString(answersObj) {
     var qs = {};
     // All Get Requests
-    qs.limit = 2500;
+    qs.limit = 300; // Maximum
+    qs.offset = answersObj.offset;
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
@@ -48,6 +49,7 @@ module.exports = (function() {
       qs: queryString,
       headers: {'cache-control': 'no-cache'}
     };
+    console.log(options);
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
       if (response.statusCode !== 200)
@@ -60,22 +62,33 @@ module.exports = (function() {
           csvContent = parsedContentData.objects.map(function (object) {
             var csvProperties =
             { // DEFAULT
-              url: object.url,
-              post_body: helpers.removeLineEnds(object.post_body),
-              meta_description: object.meta_description,
-              name: object.name,
               id: object.id,
-              slug: object.slug,
+              url: object.url,
+              // featured_image: object.featured_image,
+              // post_body: helpers.removeLineEnds(object.post_body),
+              // meta_description: object.meta_description,
+              // name: object.name,
+              post_body: helpers.removeLineEnds(object.post_body),
+              word_count: helpers.getWordCount(object.post_body),
+              // slug: object.slug,
               editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
                         '/edit-beta/' + object.id,
               // CUSTOM //TODO: make this more customizable
+              // updated: helpers.convertTimestamp(object.updated),
+              // created: helpers.convertTimestamp(object.created),
+              // sales_free: object.widgets.article_product_key.body.sales_free,
+              // marketing_free: object.widgets.article_product_key.body.marketing_free,
               // inApp: object.widgets.in_app_project_url.body.value,
               // inAcademy: object.widgets.project_url.body.value
-              // addon: object.widgets.article_product_key.body.addon,
+              // widgets: object.widgets,
               // topic_ids: object.topic_ids
             };
+            // if (object.widgets.article_product_key) {
+            //   csvProperties.productKey = object.widgets.article_product_key.body;
+            //   csvProperties.sales_free = object.widgets.article_product_key.body.sales_pro;
+            // }
             return csvProperties;
-          });//.filter(filter);
+          }).filter(contentFilters.noFilter);
       var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
           completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
           cosContentJSON = JSON.stringify(csvContent),

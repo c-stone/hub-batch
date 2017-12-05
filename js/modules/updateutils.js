@@ -73,6 +73,7 @@ module.exports = (function() {
 
   function batchUpdateContent(batchedPagesObject) {
     async.eachLimit(batchedPagesObject, 1, function(collection, callback) {
+      // console.log(batchedPagesObject);
         collection.forEach(putContentUpdates);
         console.log('Processing Collection #'+ count +' of '+ batchedPagesObject.length);
         ++count;

@@ -18,6 +18,9 @@ var contentFilters = {
   isProspectsArticle: function(arrayElement) {
     return arrayElement.body.indexOf("prospect") !== -1;
   },
+  isCosArticle: function(arrayElement) {
+    return arrayElement.post_body.indexOf("COS") !== -1;
+  },
   isKnowledgeGuide: function(arrayElement) {
     return arrayElement.domain === "knowledge.hubspot.com";
   },
@@ -38,8 +41,27 @@ var contentFilters = {
   },
   isNotHiddenFile: function(file) {
     return file.indexOf(".") !== 0;
+  },
+  isSalesProOnly: function(arrayElement) {
+    var pk = arrayElement.productKey;
+    console.log(pk);
+    if (pk) {
+      if (pk.use_checkboxes) {
+        if (
+            // pk.sales_pro &&
+            //  !pk.marketing_basic &&
+            //  !pk.marketing_enterprise &&
+            //  !pk.marketing_free &&
+            //  !pk.marketing_pro &&
+            //  !pk.marketing_starter &&
+            //  !pk.partner_account &&
+             pk.sales_free) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
-
 };
 
 module.exports = contentFilters;

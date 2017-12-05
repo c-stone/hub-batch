@@ -1,5 +1,7 @@
 var cheerio = require('cheerio'),
     fs = require('fs'),
+    moment = require('moment'),
+    jquery = require('jquery'),
     contentFilters = require('../static/contentfilters');
 
 var helpers = {
@@ -23,6 +25,13 @@ var helpers = {
       return $.html();
     }
     else { console.log(bodyHtml); }
+  },
+  "convertTimestamp": function(unixTimeStamp) {
+    return moment(unixTimeStamp).format('MM/DD/YYYY');
+  },
+  "getWordCount": function(text) {
+    console.log(text.trim().replace(/(\r\n|\n|\r)/gm, ' ').split(' ').length);
+    return text.trim().replace(/(\r\n|\n|\r)/gm, ' ').split(' ').length;
   }
 };
 

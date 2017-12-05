@@ -36,23 +36,36 @@ var cliUtils = {
         message: 'What type of operation would you like to perform?:',
         choices: ['get', 'update', 'publish', 'rollback']
       },
+      {
+        name: 'offset',
+        type: 'input',
+        message: 'Offset results?',
+        default: 0,
+        // validate: function(input) {
+        //   if (input.length >= 0) {
+        //     return true;
+        //   } else {
+        //     return 'Enter a number 0 or greater';
+        //   }
+        // }
+      },
         // Begin GET Options
-        { // GET: If BLOG POSTS is selected
-          name: 'contentGroupId',
-          type: 'list',
-          message: 'Which blog would you like to Get?:',
-          choices: Object.keys(staticIds.groupIds),
-          when: function(answers) {
-            if (answers.contentType === 'blog-posts') {
-              return (answers.method === 'get');
-            }
+      { // GET: If BLOG POSTS is selected
+        name: 'contentGroupId',
+        type: 'list',
+        message: 'Which blog would you like to Get?:',
+        choices: Object.keys(staticIds.groupIds),
+        when: function(answers) {
+          if (answers.contentType === 'blog-posts') {
+            return (answers.method === 'get');
           }
+        }
         },
         { // GET: If BLOG POSTS is selected
           name: 'postState',
           type: 'list',
           message: 'Select pages in which state?:',
-          choices: ['DRAFT','PUBLISHED','SCHEDULED','ALL'],
+          choices: ['PUBLISHED','DRAFT','SCHEDULED','ALL'],
           when: function(answers) {
             if (answers.contentType === 'blog-posts') {
               return (answers.method === 'get');
@@ -100,7 +113,7 @@ var cliUtils = {
           { // GET: If Campaign is Selected
             name: 'topic',
             type: 'list',
-            message: 'Select a campaign:',
+            message: 'Select a topic:',
             choices: Object.keys(staticIds.topicIds),
             when: function(answers) {
               if (answers.refineOptions) {
