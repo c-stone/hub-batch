@@ -30,8 +30,8 @@ module.exports = (function() {
       var getOptions = {
         method: 'GET',
         qs: queryString,
-        url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType+
-             '/'+ pageId+ '/versions',
+        url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +
+             '/'+ pageId + '/versions',
         headers:{
           'cache-control': 'no-cache',
         },
@@ -42,7 +42,7 @@ module.exports = (function() {
           throw new Error(response.statusCode+ ": "+ JSON.stringify(response.body));
         }
         var parsedBody = JSON.parse(body),
-            previousVersionId = parsedBody[1].version_id, // move back 1 revision
+            previousVersionId = parsedBody[1].id, // move back 1 revision version_id
             contentVersionInfo = {
               pageId: pageId,
               previousVersionId: previousVersionId
@@ -59,7 +59,7 @@ module.exports = (function() {
             versionInfoObj.pageId + '/versions/restore',
       headers: {
         'cache-control': 'no-cache',
-        'content-type': 'application/jsons'
+        'content-type': 'application/json'
       },
       body: { "version_id": versionInfoObj.previousVersionId },
       qs: queryString,

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 var getUtils = require('./js/modules/getutils'),
     updateUtils = require('./js/modules/updateutils'),
+    updateBufferUtils = require('./js/modules/updatebufferutils'),
+    pushBufferLiveUtils = require('./js/modules/pushbufferliveutils'),
     publishUtils = require('./js/modules/publishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
     cliUtils = require('./js/modules/cliutils'),
@@ -22,16 +24,22 @@ else if ( config.usersFolder ) {
     else if ( status === 200 ) {
       cliUtils.getUserPreferences(function(answersObj) {
         var method = answersObj.method;
-        if ( method === 'get' ) {
+        if ( method === 'GET JSON' ) {
           getUtils.makeGetRequest(answersObj);
         }
-        else if ( method === 'update' ) {
+        else if ( method === 'Update Buffer JSON' ) {
+          updateBufferUtils.makeUpdateBufferRequest(answersObj);
+        }
+        else if ( method === 'Push Buffer Live' ) {
+          pushBufferLiveUtils.makePushBufferLiveRequest(answersObj);
+        }
+        else if ( method === 'Update Hard Object JSON' ) {
           updateUtils.makeUpdateRequest(answersObj);
         }
-        else if ( method === 'publish' ) {
+        else if ( method === 'Publish Action' ) {
           publishUtils.makePublishRequest(answersObj);
         }
-        else if ( method === 'rollback' ) {
+        else if ( method === 'Rollback Hard Object JSON' ) {
           rollbackUtils.makeRollbackRequest(answersObj);
         }
       });
