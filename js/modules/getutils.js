@@ -68,6 +68,7 @@ module.exports = (function() {
               // use_featured_image: object.use_featured_image,
               // id: object.id,
               // slug: object.slug,
+              content_group_id: object.content_group_id,
               //editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
                        // '/edit-beta/' + object.id,
               // CUSTOM //TODO: make this more customizable
