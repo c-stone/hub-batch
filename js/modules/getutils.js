@@ -19,7 +19,7 @@ module.exports = (function() {
     var qs = {};
     // All Get Requests
     qs.limit = 2500;
-    qs.order = "-updated";
+    // qs.order = "-updated"; //reverse for endpoint limits
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
