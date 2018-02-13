@@ -7,6 +7,7 @@ A library the utilizes HubSpot APIs for bulk updating COS content (Blog Posts an
 2. __Import__ post/page information to HubSpot from a CSV file
 3. __Update__ and __Publish__ live COS content
 4. __Rollback__ changes 1 revision _just in case_
+5. __Create__ new pages and posts
 
 This tool has been used by HubSpot to bulk update content, with over 1000 pages updated at once.
 
