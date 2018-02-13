@@ -19,6 +19,7 @@ module.exports = (function() {
     var qs = {};
     // All Get Requests
     qs.limit = 2500;
+    // qs.order = "-updated"; //reverse for endpoint limits
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
@@ -60,13 +61,16 @@ module.exports = (function() {
             var csvProperties =
             { // DEFAULT
               url: object.url,
+              // featured_image: object.featured_image,
               post_body: helpers.removeLineEnds(object.post_body),
               meta_description: object.meta_description,
               name: object.name,
-              id: object.id,
-              slug: object.slug,
-              editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
-                        '/edit-beta/' + object.id,
+              // use_featured_image: object.use_featured_image,
+              // id: object.id,
+              // slug: object.slug,
+              // content_group_id: object.content_group_id,
+              //editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
+                       // '/edit-beta/' + object.id,
               // CUSTOM //TODO: make this more customizable
               // inApp: object.widgets.in_app_project_url.body.value,
               // inAcademy: object.widgets.project_url.body.value

@@ -7,6 +7,7 @@ A library the utilizes HubSpot APIs for bulk updating COS content (Blog Posts an
 2. __Import__ post/page information to HubSpot from a CSV file
 3. __Update__ and __Publish__ live COS content
 4. __Rollback__ changes 1 revision _just in case_
+5. __Create__ new pages and posts
 
 This tool has been used by HubSpot to bulk update content, with over 1000 pages updated at once.
 
@@ -34,7 +35,7 @@ After you complete these two steps, you are ready to begin.
 
 ## Usage
 ```
-$ hub-batch
+$ ./app.js
 ```
 When you first run hub-batch in terminal, you will be asked to provide some authentication details. HubSpot’s APIs allow you to authenticate using a __HapiKey__ or __Access Token__. You will automatically asked to be add a new token if the existing token expires.
 
@@ -45,7 +46,7 @@ After this set up is complete, run `$ hub-batch` again to begin.
 ### Example
 From terminal, run:
 ```
-$ hub-batch
+$ ./app.js
 ```
 
 Using the arrow keys, walk through the options provided:
@@ -64,7 +65,7 @@ Use this option to __Get__ a CSV containing COS blog post/page data.
 
 From terminal, run:
 ```
-$ hub-batch
+$ ./app.js
 ```
 
 Using the arrow keys, select the following:
@@ -105,7 +106,7 @@ Use this option __Update__ the contents of COS blog post/page data. You will hav
 
 From terminal, run:
 ```
-$ hub-batch
+$ ./app.js
 ```
 
 Using the arrow keys, select the following:
@@ -120,7 +121,7 @@ Use this option to __Publish__ pages that have been updated or have unpublished 
 
 From terminal, run:
 ```
-$ hub-batch
+$ ./app.js
 ```
 
 Using the arrow keys, select the following:
@@ -134,9 +135,23 @@ Use this option to __Rollback__ published changes. This feature will revert any 
 
 From terminal, run:
 ```
-$ hub-batch
+$ ./app.js
 ```
 
 Using the arrow keys, select the following options:
 - Content type: Blog Posts or Site Pages
 - Which file contains the content you'd like to rollback 1 version?: This will list any CSV file found in the Hub-Batch __Imports__ folder.
+
+### Post or Page Creation
+Use this option to __Create Pages and Posts__. This feature will create new post or page content objects
+
+From terminal, run:
+```
+$ ./app.js
+```
+
+Using the arrow keys, select the following options:
+- Content type: Blog Posts or Site Pages
+- Which file contains the content you'd use to create pages or posts
+If you are creating posts, you must include a content_group_id in the request payload to ensure the post is created in the desired blog. 
+If you are getting posts/pages from one portal, and creating them in another, do not forget to update the .env file with the destination portal authentication. 

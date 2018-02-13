@@ -34,7 +34,7 @@ var cliUtils = {
         name: 'method',
         type: 'list',
         message: 'What type of operation would you like to perform?:',
-        choices: ['get', 'update', 'publish', 'rollback']
+        choices: ['GET JSON', 'Update Buffer JSON', 'Push Buffer Live', 'Update Hard Object JSON', 'Publish Action', 'Rollback Hard Object JSON', 'Create Posts or Pages']
       },
         // Begin GET Options
         { // GET: If BLOG POSTS is selected
@@ -44,7 +44,7 @@ var cliUtils = {
           choices: Object.keys(staticIds.groupIds),
           when: function(answers) {
             if (answers.contentType === 'blog-posts') {
-              return (answers.method === 'get');
+              return (answers.method === 'GET JSON');
             }
           }
         },
@@ -55,7 +55,7 @@ var cliUtils = {
           choices: ['DRAFT','PUBLISHED','SCHEDULED','ALL'],
           when: function(answers) {
             if (answers.contentType === 'blog-posts') {
-              return (answers.method === 'get');
+              return (answers.method === 'GET JSON');
             }
           }
         },
@@ -66,7 +66,7 @@ var cliUtils = {
           default: false,
           when: function(answers) {
             if (answers.contentType === 'pages') {
-              return (answers.method === 'get');
+              return (answers.method === 'GET JSON');
             }
           }
         },
@@ -76,7 +76,7 @@ var cliUtils = {
           message: 'How would you like to refine your GET request?:',
           choices: ['Campaign', 'Topic', 'Name', 'Slug'],
           default: ['none'],
-          when: answers => (answers.method === 'get' && answers.contentType === 'blog-posts')
+          when: answers => (answers.method === 'GET JSON' && answers.contentType === 'blog-posts')
         },
         { // GET: Options to refine search
           name: 'refineOptions',
@@ -84,7 +84,7 @@ var cliUtils = {
           message: 'How would you like to refine your GET request?:',
           choices: ['Campaign', 'Name', 'Slug'],
           default: ['none'],
-          when: answers => (answers.method === 'get' && answers.contentType === 'pages')
+          when: answers => (answers.method === 'GET JSON' && answers.contentType === 'pages')
         },
           { // GET: If Campaign is Selected
             name: 'campaign',
@@ -142,14 +142,14 @@ var cliUtils = {
               }
             }
           },
-      // Begin UPDATE/PUBLISH options
-      { // If UPDATE or PUBLISH are selected
+      // Begin UPDATE/PUBLISH/BUFFER/PUSHBUFFERLIVE options
+      { // If UPDATE, BUFFER, PUSHBUFFERLIVE or PUBLISH are selected
         name: 'importFilename',
         type: 'list',
         message: 'Which file you would like to import?:',
         choices: helpers.getFolders(importsFolder),
         //TODO: this is appearing for GET as well as UPDATE/PUBLISH
-        when: answers => (answers.method === 'update' || answers.method === 'publish')
+        when: answers => (answers.method === 'Update Hard Object JSON' || answers.method === 'Publish Action' || answers.method === 'Update Buffer JSON' || answers.method === 'Push Buffer Live' || answers.method === 'Create Posts or Pages') 
       },
       // Begin ROLLBACK options
       {
@@ -157,7 +157,7 @@ var cliUtils = {
         type: 'list',
         message: 'Which file contains the content you\'d like to rollback 1 version?:',
         choices: helpers.getFolders(importsFolder),
-        when: answers => (answers.method === 'rollback')
+        when: answers => (answers.method === 'Rollback Hard Object JSON')
       }
     ];
     // Ask user questions, then run a callback function
