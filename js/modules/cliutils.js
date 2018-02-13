@@ -34,7 +34,7 @@ var cliUtils = {
         name: 'method',
         type: 'list',
         message: 'What type of operation would you like to perform?:',
-        choices: ['GET JSON', 'Update Buffer JSON', 'Push Buffer Live', 'Update Hard Object JSON', 'Publish Action', 'Rollback Hard Object JSON', 'Create Posts']
+        choices: ['GET JSON', 'Update Buffer JSON', 'Push Buffer Live', 'Update Hard Object JSON', 'Publish Action', 'Rollback Hard Object JSON', 'Create Posts or Pages']
       },
         // Begin GET Options
         { // GET: If BLOG POSTS is selected
@@ -149,7 +149,7 @@ var cliUtils = {
         message: 'Which file you would like to import?:',
         choices: helpers.getFolders(importsFolder),
         //TODO: this is appearing for GET as well as UPDATE/PUBLISH
-        when: answers => (answers.method === 'Update Hard Object JSON' || answers.method === 'Publish Action' || answers.method === 'Update Buffer JSON' || answers.method === 'Push Buffer Live' || answers.method === 'Create Posts') 
+        when: answers => (answers.method === 'Update Hard Object JSON' || answers.method === 'Publish Action' || answers.method === 'Update Buffer JSON' || answers.method === 'Push Buffer Live' || answers.method === 'Create Posts or Pages') 
       },
       // Begin ROLLBACK options
       {

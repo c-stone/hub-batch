@@ -45,7 +45,7 @@ module.exports = (function() {
     // Important payload parameters. content_group_id, post_body, name, slug
     var options = {
       method: 'POST',
-      url: 'http://api.hubapi.com/content/api/v2/blog-posts',
+      url: 'http://api.hubapi.com/content/api/v2/' + cosContentType,
       qs: queryString,
       headers: {'cache-control': 'no-cache'},
       json: pageData
