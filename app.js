@@ -43,7 +43,7 @@ else if ( config.usersFolder ) {
         else if ( method === 'Rollback Hard Object JSON' ) {
           rollbackUtils.makeRollbackRequest(answersObj);
         }
-        else if ( method === 'Create Posts' ) {
+        else if ( method === 'Create Posts or Pages' ) {
           createPostUtils.makePostCreationRequest(answersObj);
         }
       });
