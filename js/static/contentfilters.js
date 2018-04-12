@@ -21,6 +21,9 @@ var contentFilters = {
   isCosArticle: function(arrayElement) {
     return arrayElement.post_body.indexOf("COS") !== -1;
   },
+  containsContactSupport: function(arrayElement) {
+    return arrayElement.post_body.toLowerCase().indexOf("contact support") !== -1;
+  },
   isKnowledgeGuide: function(arrayElement) {
     return arrayElement.domain === "knowledge.hubspot.com";
   },

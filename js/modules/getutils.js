@@ -5,7 +5,7 @@ var fs = require('fs'),
     staticIds = require('../static/staticIds'),
     config = require('../static/config'),
     contentFilters = require('../static/contentfilters');
-
+var loopCount = 0;
 
 module.exports = (function() {
   function makeGetRequest(answersObj) {
@@ -49,17 +49,20 @@ module.exports = (function() {
       qs: queryString,
       headers: {'cache-control': 'no-cache'}
     };
-    console.log(options);
+
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
       if (response.statusCode !== 200)
       {
         throw new Error(response.statusCode + ": " + response.body);
       }
+      console.log(options, response.statusCode)
 
       // Build CSV and JSON from Body of response
-      var parsedContentData = JSON.parse(body),
-          csvContent = parsedContentData.objects.map(function (object) {
+      var parsedContentData = JSON.parse(body);
+      var totalPosts = parsedContentData.total;
+      var loops = Math.ceil(totalPosts/300); // limit per request = 300
+      var csvContent = parsedContentData.objects.map(function (object) {
             var csvProperties =
             { // DEFAULT
               id: object.id,
@@ -69,7 +72,7 @@ module.exports = (function() {
               // meta_description: object.meta_description,
               // name: object.name,
               post_body: helpers.removeLineEnds(object.post_body),
-              word_count: helpers.getWordCount(object.post_body),
+              // word_count: helpers.getWordCount(object.post_body),
               // slug: object.slug,
               editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
                         '/edit-beta/' + object.id,
@@ -87,27 +90,49 @@ module.exports = (function() {
             //   csvProperties.productKey = object.widgets.article_product_key.body;
             //   csvProperties.sales_free = object.widgets.article_product_key.body.sales_pro;
             // }
+
+
             return csvProperties;
-          }).filter(contentFilters.noFilter);
-      var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
-          completeCSV = json2csv({ data: csvContent, fields: csvHeaders }),
-          cosContentJSON = JSON.stringify(csvContent),
-          portalId = parsedContentData.objects[0].portal_id,
-          exportsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/exports'; //ID used in output file title
-      // Creates JSON file
-      fs.writeFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.json', cosContentJSON,
-        function (err) {
-         if (err) { return console.log("error: "+ err); }
-         console.log("The JSON file was saved!");
+          }).filter(contentFilters.containsContactSupport);
+
+      if (csvContent[0]) {
+        var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
+            completeCSV = json2csv({ header: false, data: csvContent }),
+            cosContentJSON = JSON.stringify(csvContent),
+            portalId = parsedContentData.objects[0].portal_id,
+            exportsFolder = process.env.HOME+ '/'+ config.usersFolder+ '/hub-batch/exports'; //ID used in output file title
+
+        if (loopCount >= 1) {
+          completeCSV = json2csv({ data: csvContent, header: false })
         }
-      );
-      // Creates CSV file
-      fs.writeFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.csv', completeCSV,
-        function(err) {
-          if (err) throw err;
-          console.log('The CSV file was saved');
-        }
-      );
+
+        // Creates JSON file
+        fs.writeFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.json', cosContentJSON,
+          function (err) {
+           if (err) { return console.log("error: "+ err); }
+           console.log("The JSON file was saved!");
+          }
+        );
+        // Creates CSV file
+        fs.appendFile(exportsFolder+ '/coscontentexport-'+ portalId+ '.csv', completeCSV,
+          function(err) {
+            if (err) throw err;
+            console.log('The CSV file was saved');
+          }
+        );
+      }
+
+      else {
+        console.log('No results matching filter');
+      }
+
+
+      if (loops > loopCount) {
+        loopCount += 1
+        queryString.offset += 300;
+        fetchPageInfo(filter, cosContentType, queryString)
+
+      }
     });
   }
   return {
