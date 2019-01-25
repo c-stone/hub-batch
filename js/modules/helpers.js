@@ -3,6 +3,9 @@ var cheerio = require('cheerio'),
     moment = require('moment'),
     jquery = require('jquery'),
     contentFilters = require('../static/contentfilters');
+    const jsdom = require("jsdom");
+    const { JSDOM } = jsdom;
+    const he = require("he");
 
 var helpers = {
   getFolders: function(path) {
@@ -29,9 +32,19 @@ var helpers = {
   "convertTimestamp": function(unixTimeStamp) {
     return moment(unixTimeStamp).format('MM/DD/YYYY');
   },
-  "getWordCount": function(text) {
-    console.log(text.trim().replace(/(\r\n|\n|\r)/gm, ' ').split(' ').length);
-    return text.trim().replace(/(\r\n|\n|\r)/gm, ' ').split(' ').length;
+  "getWordCount": function(html, title) {
+    const dom = new JSDOM(html);
+    let d = dom.window.document;
+    let parsedDoc = d.body.textContent.match(/\S+/g);
+    let parsedTitle = title.match(/\S+/g);
+
+    return parsedDoc.length + parsedTitle.length;
+  },
+  "getWordCountSrc": function(html) {
+    const dom = new JSDOM(html);
+    let d = dom.window.document;
+    let parsedDoc = d.body.textContent.match(/\S+/g);
+    return parsedDoc;
   }
 };
 

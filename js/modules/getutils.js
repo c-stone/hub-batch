@@ -71,11 +71,11 @@ module.exports = (function() {
               // post_body: helpers.removeLineEnds(object.post_body),
               // meta_description: object.meta_description,
               // name: object.name,
-              post_body: helpers.removeLineEnds(object.post_body),
-              // word_count: helpers.getWordCount(object.post_body),
+              // post_body: helpers.removeLineEnds(object.post_body),
+              word_count: helpers.getWordCount(object.post_body, object.html_title)
               // slug: object.slug,
-              editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
-                        '/edit-beta/' + object.id,
+              // editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
+              //           '/edit-beta/' + object.id,
               // CUSTOM //TODO: make this more customizable
               // updated: helpers.convertTimestamp(object.updated),
               // created: helpers.convertTimestamp(object.created),
@@ -91,9 +91,9 @@ module.exports = (function() {
             //   csvProperties.sales_free = object.widgets.article_product_key.body.sales_pro;
             // }
 
-
+console.log(csvProperties);
             return csvProperties;
-          }).filter(contentFilters.containsContactSupport);
+          }).filter(contentFilters.noFilter);
 
       if (csvContent[0]) {
         var csvHeaders = Object.keys(csvContent[0]),// headers returned in the csv
