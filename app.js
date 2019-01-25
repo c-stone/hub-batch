@@ -3,6 +3,7 @@ var getUtils = require('./js/modules/getutils'),
     updateUtils = require('./js/modules/updateutils'),
     publishUtils = require('./js/modules/publishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
+    analyticsUtils = require('./js/modules/analyticsutils'),
     cliUtils = require('./js/modules/cliutils'),
     setup = require('./js/modules/setuputils'),
     config = require('./js/static/config.json');
@@ -33,6 +34,9 @@ else if ( config.usersFolder ) {
         }
         else if ( method === 'rollback' ) {
           rollbackUtils.makeRollbackRequest(answersObj);
+        }
+        else if ( method === 'analytics' ) {
+          rollbackUtils.makeAnalyticsRequest(answersObj);
         }
       });
     }
