@@ -36,7 +36,7 @@ else if ( config.usersFolder ) {
           rollbackUtils.makeRollbackRequest(answersObj);
         }
         else if ( method === 'analytics' ) {
-          rollbackUtils.makeAnalyticsRequest(answersObj);
+          analyticsUtils.makeAnalyticsRequest(answersObj);
         }
       });
     }
