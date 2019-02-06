@@ -90,8 +90,6 @@ module.exports = (function() {
             //   csvProperties.productKey = object.widgets.article_product_key.body;
             //   csvProperties.sales_free = object.widgets.article_product_key.body.sales_pro;
             // }
-
-console.log(csvProperties);
             return csvProperties;
           }).filter(contentFilters.noFilter);
 

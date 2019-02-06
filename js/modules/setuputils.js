@@ -21,7 +21,7 @@ var setup = {
         name: 'authType',
         type: 'list',
         message: 'What type of authentation would you like to use?',
-        choices: ['hapikey', 'access_token']
+        choices: ['access_token', 'hapikey']
       },
       {
         name: 'authToken',
