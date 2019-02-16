@@ -51,6 +51,7 @@
     "jsdom": "^13.0.0",
     "json2csv": "^3.7.2",
     "moment": "^2.19.2",
+    "object.values": "^1.1.0",
     "package": "^1.0.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
