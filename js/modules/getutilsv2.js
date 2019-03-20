@@ -10,9 +10,9 @@ const limit = 300;
 let offset = 0;
 
 module.exports = (function() {
-
   function getRequestV2() {
-    let options = {
+    let file = fs.createWriteStream('array-en-full.csv');
+    let getPostsOptions = {
       method: 'GET',
       url: 'https://api.hubapi.com/content/api/v2/blog-posts',
       qs:
@@ -27,58 +27,40 @@ module.exports = (function() {
       json: true
     };
 
-    function loopableRequest() {
+    function loopableRequest(options) {
       return new Promise(resolve => {
         rp(options).then(body => {
-          options.qs.offset += limit + 1;
+          options.qs.offset += limit;
           resolve(body);
         } );
       });
     }
 
+    function writeToFile(posts) {
+      file.on('error', function(err) { console.log(err); });
+      posts.objects.map(function(post) {
+        let postInfo = [post.id, post.url, post.name];
+        console.log(postInfo);
+        file.write(postInfo.join('    ') + '\n');
+      });
+
+    }
+
     async function asyncCall() {
       console.log('calling');
       for (let i = 0; i < 3 ; i++) {
-        let result = await loopableRequest();
-        console.log(result.offset);
+        let posts = await loopableRequest(getPostsOptions);
+        writeToFile(posts);
       }
     }
 
-    // TODO consider using paralell or similar instead. Also try on better wifi lol
-
-    asyncCall();
-
-    // rp(options)
-    //   .then(function (body) {
-    //     const posts = body.objects;
-    //     const total = body.total;
-    //     const loopCount = Math.ceil(total/limit);
-    //     posts.map(function (post) {
-    //       console.log('id', post.id, 'name', post.name, 'url', post.url)
-    //     });
-    //   })
-    //   .catch(function (err) {
-    //   });
+    asyncCall().then(function(){
+      file.end();
+    })
   }
 
   function makeGetRequestV2() {
     getRequestV2();
-    // readPageIdCSV(chosenCSVFile)
-    //   .then(createFunctionList)
-    //   .then(getAnalyticsValues).then(function(listOfValuesArrays) {
-    //     let file = fs.createWriteStream('array-20190209-email.csv');
-    //     file.on('error', function(err) { console.log(err); });
-    //     listOfValuesArrays.forEach(function(valuesArrays) {
-    //       if (valuesArrays) {
-    //         valuesArrays.forEach(function (array) {
-    //           if (Object.keys(array).length > 0) {
-    //             file.write(array.join(', ') + '\n');
-    //           }
-    //         });
-    //       }
-    //     });
-    //     file.end();
-    //   });
   }
   return { makeGetRequestV2: makeGetRequestV2 };
 })();

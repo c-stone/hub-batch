@@ -34,6 +34,10 @@
   "bin": "./app.js",
   "devDependencies": {
     "countable": "^3.0.1",
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
     "he": "^1.2.0"
   },
   "dependencies": {
@@ -43,8 +47,6 @@
     "clear": "0.0.1",
     "csvtojson": "^1.0.2",
     "dotenv": "^2.0.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-airbnb-base": "^13.1.0",
     "figlet": "^1.2.0",
     "fs": "0.0.1-security",
     "htmlparser2": "^3.10.0",
