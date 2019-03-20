@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var getUtils = require('./js/modules/getutils'),
+    getUtilsV2 = require('./js/modules/getutilsv2'),
     updateUtils = require('./js/modules/updateutils'),
     publishUtils = require('./js/modules/publishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
@@ -25,6 +26,9 @@ function kickoffApp() {
           var method = answersObj.method;
           if ( method === 'get' ) {
             getUtils.makeGetRequest(answersObj);
+          }
+          else if ( method === 'get2' ) {
+            getUtilsV2.makeGetRequestV2();
           }
           else if ( method === 'update' ) {
             updateUtils.makeUpdateRequest(answersObj);

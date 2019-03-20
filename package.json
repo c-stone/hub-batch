@@ -43,6 +43,8 @@
     "clear": "0.0.1",
     "csvtojson": "^1.0.2",
     "dotenv": "^2.0.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "figlet": "^1.2.0",
     "fs": "0.0.1-security",
     "htmlparser2": "^3.10.0",

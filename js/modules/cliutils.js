@@ -31,7 +31,7 @@ var cliUtils = {
         name: 'method',
         type: 'list',
         message: 'What type of operation would you like to perform?:',
-        choices: ['analytics','get', 'update', 'publish', 'rollback']
+        choices: ['analytics', 'get2','get', 'update', 'publish', 'rollback']
       }, {
         name: 'offset',
         type: 'input',
