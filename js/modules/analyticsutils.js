@@ -29,6 +29,7 @@ module.exports = (function() {
         function analyticsRequest(callback) {
           let options2 = {
             method: 'GET',
+
             url: 'https://api.hubapi.com/analytics/v2/reports/blog-posts/monthly',
             qs:
              { access_token: process.env.AUTH_TOKEN,

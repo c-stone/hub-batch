@@ -31,7 +31,7 @@ var cliUtils = {
         name: 'method',
         type: 'list',
         message: 'What type of operation would you like to perform?:',
-        choices: ['analytics', 'get2','get', 'update', 'publish', 'rollback']
+        choices: ['analytics', 'getSlugsIDs', 'get2','get', 'update', 'unpublish', 'publish', 'rollback']
       }, {
         name: 'offset',
         type: 'input',
@@ -155,7 +155,7 @@ var cliUtils = {
         type: 'list',
         message: 'Which file you would like to import?:',
         choices: helpers.getFolders(importsFolder),
-        when: answers => (answers.method === 'update' || answers.method === 'publish' || answers.method === 'analytics')
+        when: answers => (answers.method === 'update' || answers.method === 'publish' || answers.method === 'unpublish' || answers.method === 'analytics' || answers.method === 'getSlugsIDs')
       },
       // Begin ROLLBACK options
       {

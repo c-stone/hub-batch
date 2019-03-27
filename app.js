@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 var getUtils = require('./js/modules/getutils'),
     getUtilsV2 = require('./js/modules/getutilsv2'),
+    getSlugsIDs = require('./js/modules/getSlugsIDs'),
     updateUtils = require('./js/modules/updateutils'),
     publishUtils = require('./js/modules/publishutils'),
+    unpublishUtils = require('./js/modules/unpublishutils'),
     rollbackUtils = require('./js/modules/rollbackutils'),
     analyticsUtils = require('./js/modules/analyticsutils'),
     cliUtils = require('./js/modules/cliutils'),
@@ -30,11 +32,17 @@ function kickoffApp() {
           else if ( method === 'get2' ) {
             getUtilsV2.makeGetRequestV2();
           }
+          else if ( method === 'getSlugsIDs' ) {
+            getSlugsIDs.makeSlugToIDGetRequests(answersObj);
+          }
           else if ( method === 'update' ) {
             updateUtils.makeUpdateRequest(answersObj);
           }
           else if ( method === 'publish' ) {
             publishUtils.makePublishRequest(answersObj);
+          }
+          else if ( method === 'unpublish' ) {
+            unpublishUtils.makeUnpublishRequest(answersObj);
           }
           else if ( method === 'rollback' ) {
             rollbackUtils.makeRollbackRequest(answersObj);

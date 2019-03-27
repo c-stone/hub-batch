@@ -1,12 +1,13 @@
-const rp = require("request-promise-native");
 const fs = require('fs');
+const rp = require("request-promise-native");
+const config = require('../static/config.json');
 const importsFolder = process.env.HOME + '/' + config.usersFolder + '/hub-batch/imports';
 const limit = 300;
 let offset = 0;
 
 module.exports = (function() {
   function getRequestV2() {
-    const file = fs.createWriteStream('array-en-full.csv');
+    const file = fs.createWriteStream('array-FR-full.csv');
     let getPostsOptions = {
       method: 'GET',
       url: 'https://api.hubapi.com/content/api/v2/blog-posts',
@@ -15,7 +16,8 @@ module.exports = (function() {
          state: 'PUBLISHED',
          limit: limit, // Maximum 300
          offset:  offset,
-         content_group_id: 3345520891, // EN KB Articles
+         updated__lt: 1535763600000,
+         content_group_id: 5234134064,
        },
       headers:
        { 'cache-control': 'no-cache' },
@@ -34,7 +36,7 @@ module.exports = (function() {
     function writeToFile(posts) {
       file.on('error', function(err) { console.log(err); });
       posts.objects.map(function(post) {
-        let postInfo = [post.id, post.url, post.name];
+        let postInfo = [post.id, post.url];
         file.write(postInfo.join('    ') + '\n');
       });
     }
