@@ -20,7 +20,7 @@ var cliUtils = {
       console.log('You are working with portal ' + process.env.HUB_ID);
     }
   },
-  getUserPreferences: function(callback) {
+  getUserPreferences: function(token, callback) {
     var questions = [
       {
         name: 'contentType',

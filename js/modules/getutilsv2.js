@@ -5,28 +5,41 @@ const importsFolder = process.env.HOME + '/' + config.usersFolder + '/hub-batch/
 const limit = 300;
 let offset = 0;
 
+// Quiries
+// (Fr) done
+// (Fr-fr) done
+// (Es) done
+// (Es-la) done
+// (De) done
+// (De-de) done
+// (Ja) done
+// (Pt-br) done
+
 module.exports = (function() {
-  function getRequestV2() {
-    const file = fs.createWriteStream('array-FR-full.csv');
+
+  function getRequestV2(accessToken) {
+    const file = fs.createWriteStream('ugs.csv');
     let getPostsOptions = {
       method: 'GET',
-      url: 'https://api.hubapi.com/content/api/v2/blog-posts',
+      url: 'https://api.hubapi.com/content/api/v2/pages',
       qs:
-       { access_token: process.env.AUTH_TOKEN,
-         state: 'PUBLISHED',
+       {
+         is_draft: false,
          limit: limit, // Maximum 300
          offset:  offset,
-         updated__lt: 1535763600000,
-         content_group_id: 5234134064,
        },
       headers:
-       { 'cache-control': 'no-cache' },
+       {
+         Authorization: `Bearer ${accessToken}`,
+         'Content-Type': 'application/json'
+       },
       json: true
     };
 
     function makeRequest(options) {
       return new Promise(resolve => {
         rp(options).then(body => {
+          console.log(body);
           options.qs.offset += limit;
           resolve(body);
         } );
@@ -54,8 +67,8 @@ module.exports = (function() {
   }
   //
   //
-  function makeGetRequestV2() {
-    getRequestV2();
+  function makeGetRequestV2(token) {
+    getRequestV2(token);
   }
   return { makeGetRequestV2: makeGetRequestV2 };
 })();

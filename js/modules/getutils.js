@@ -20,6 +20,7 @@ module.exports = (function() {
     // All Get Requests
     qs.limit = 300; // Maximum
     qs.offset = answersObj.offset;
+    qs.domain = 'knowledge.hubspot.com';
     if (process.env.AUTH_TYPE === "access_token") {
       qs.access_token = process.env.AUTH_TOKEN;
     }
@@ -37,7 +38,7 @@ module.exports = (function() {
     }
     // Pages, GET query string
     if (answersObj.contentType === 'pages') {
-      qs.draft = answersObj.draft;
+      qs.is_draft = answersObj.draft;
     }
     return qs;
   }
@@ -72,7 +73,7 @@ module.exports = (function() {
               // meta_description: object.meta_description,
               // name: object.name,
               // post_body: helpers.removeLineEnds(object.post_body),
-              word_count: helpers.getWordCount(object.post_body, object.html_title)
+              // word_count: helpers.getWordCount(object.post_body, object.html_title)
               // slug: object.slug,
               // editLink: 'https://app.hubspot.com/content/'+ process.env.HUB_ID +
               //           '/edit-beta/' + object.id,
