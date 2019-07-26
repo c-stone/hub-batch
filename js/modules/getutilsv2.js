@@ -5,16 +5,6 @@ const importsFolder = process.env.HOME + '/' + config.usersFolder + '/hub-batch/
 const limit = 300;
 let offset = 0;
 
-// Quiries
-// (Fr) done
-// (Fr-fr) done
-// (Es) done
-// (Es-la) done
-// (De) done
-// (De-de) done
-// (Ja) done
-// (Pt-br) done
-
 module.exports = (function() {
 
   function getRequestV2(accessToken) {
