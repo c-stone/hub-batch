@@ -211,7 +211,7 @@ function kickoffApp(token, userId) {
         getSlugsIDs.makeSlugToIDGetRequests(answersObj);
       }
       else if ( method === 'update' ) {
-        updateUtils.makeUpdateRequest(answersObj);
+        updateUtils.makeUpdateRequest(answersObj, token);
       }
       else if ( method === 'publish' ) {
         publishUtils.makePublishRequest(answersObj);

@@ -1,20 +1,19 @@
-var request = require("request"),
-    async = require("async"),
-    fs = require('fs'),
-    Converter = require('csvtojson').Converter,
-    count = 1, // used for displaying which batch is being processed
-    config = require('../static/config.json'),
-    importsFolder = process.env.HOME+'/'+config.usersFolder+'/hub-batch/imports';
+const request = require("request"),
+      async = require("async"),
+      fs = require('fs'),
+      Converter = require('csvtojson').Converter,
+      config = require('../static/config.json'),
+      importsFolder = process.env.HOME+'/'+config.usersFolder+'/hub-batch/imports';
 
 // Global Variables set by user input
-var csvFileName,
+let count = 1, // used for displaying which batch is being processed
+    csvFileName,
     queryString,
     cosContentType;
 
 module.exports = (function() {
-  function makeUpdateRequest(answersObj) {
+  function makeUpdateRequest(answersObj, token) {
     cosContentType = answersObj.contentType;
-    queryString = buildUpdateQueryString(answersObj);
     csvFileName = importsFolder+ '/'+ answersObj.importFilename;
 
     fetchCsvData(csvFileName).then(function(pageDataObject) {
@@ -25,28 +24,19 @@ module.exports = (function() {
     });
   }
 
-  function buildUpdateQueryString(answersObj) {
-    var answers = answersObj[0],
-        qs = {};
-    if (process.env.AUTH_TYPE === "access_token") {
-      qs.access_token = process.env.AUTH_TOKEN;
-    }
-    if (process.env.AUTH_TYPE === "hapikey") {
-      qs.hapikey = process.env.AUTH_TOKEN;
-    }
-    return qs;
-  }
-
-  function putContentUpdates(pageData) {
-    var pageId = pageData.id;
+  function putContentUpdates(pageData, accessToken) {
+    let pageId = pageData.id;
     delete pageData.id; // remove ID from data, since only used in request
     if (pageData.editLink) { delete pageData.editLink; } // Remove editlink from data
     // Format Request
-    var options = {
+    let options = {
       method: 'PUT',
-      url: 'http://api.hubapi.com/content/api/v2/'+ cosContentType +'/'+ pageId,
-      qs: queryString,
-      headers: {'cache-control': 'no-cache'},
+      url: 'http://api.hubapi.com/content/api/v2/' + cosContentType + '/' + pageId,
+      headers:
+        {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
       json: pageData
     };
     // Make Request
